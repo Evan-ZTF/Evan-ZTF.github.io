@@ -7,8 +7,8 @@
       <li class="{{state==1?'active':''}}" ng-click="changeState(1)">已接订单</li>
     </ul>
     <ion-slide-box on-slide-changed="slideHasChange($index)" active-slide="state" show-pager="false">
-      <ion-slide style="height:500px;">
-        <div class="box" style="height:500px;">
+      <ion-slide>
+        <div class="box">
           <ion-list>
             <ion-item ng-repeat="item in listData" class="item item-thumbnail-left" ng-click="goDetail3(item)">
               <img ng-src="{{item.imgurl}}">
@@ -25,8 +25,8 @@
           </ion-list>
         </div>
       </ion-slide>
-      <ion-slide style="height:200px;">
-        <div class="box" style="height:200px;">
+      <ion-slide>
+        <div class="box">
           <ion-list>
             <ion-item ng-repeat="item in listData2" class="item item-thumbnail-left" ng-click="goDetail32(item)">
               <img ng-src="{{item.imgurl}}">
