@@ -1,0 +1,48 @@
+<ion-view view-title="详情"  hide-tabs="true"  style="background:rgb(244,244,244);">
+  <ion-content>
+     <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh()">
+    </ion-refresher>
+<div class="orderDetail2">
+    <ion-list>
+        <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);margin-top:3px;">
+           <div>{{info.shopName}}</div>
+           
+        </div>
+         <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);margin-top:3px;">
+           <div>{{info.phone}}</div>
+        </div>
+         <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);margin-top:3px;">
+           <div>{{info.address}}</div>
+        </div>
+        
+         <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);text-align:center;font-weight:700;margin-top:5px;" ng-show="listdatas[0]">
+            菜品介绍
+        </div>
+      <ion-item  class="item-thumbnail-left" ng-repeat="listdata in listdatas" >
+        <img ng-src="{{listdata.imgUrl}}">
+        <span>{{listdata.name}}</span>
+        <p>价格: <span class="red">{{listdata.price}}</span></p>
+        <span style="font-size:12px;">{{listdata.text}}</span>
+      </ion-item>
+    </ion-list>
+   
+
+    <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);text-align:center;font-weight:700;margin-top:5px;">
+           优惠券
+    </div>
+    <div class="row coupon"  ng-repeat="artData in artDatas">
+         <div class="col col-100">
+             <div class="topInfo">
+                 <p>{{artData.name}}</p>
+                 <p>{{artData.startTime}}</p>
+             </div>
+            <div class="bottomInfo">
+                <p>{{artData.require}}</p>
+            </div>
+         </div>
+     </div>
+</div>
+       
+       
+  </ion-content>
+</ion-view>

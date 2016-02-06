@@ -1,0 +1,12 @@
+<ion-view view-title="商家优惠">
+  <ion-content>
+      <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh()">
+    </ion-refresher>
+    <ion-list>
+      <ion-item ng-repeat="listdata in listdatas" class="item item-thumbnail-left" ng-click="goDetail2(listdata)" >
+        <img ng-src="{{listdata.imgUrl}}">
+        <h2>{{listdata.shopName}}</h2>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

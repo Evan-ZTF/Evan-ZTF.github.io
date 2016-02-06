@@ -1,0 +1,42 @@
+<ion-view view-title="啪啪送" >
+  <ion-content>
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh()">
+    </ion-refresher>
+
+     <ion-slide-box delegate-handle="slideimgs" auto-play="true" style="height:40vw" does-continue="true">
+      <ion-slide ng-repeat="item in imgList">
+        <div class="box">
+            <img ng-src="{{item.imgurl}}" style="height:40vw" >
+        </div>
+      </ion-slide>
+    </ion-slide-box>
+
+    <!--<ion-slides options="options" slider="data.slider">
+  <ion-slide-page>
+      <div class="box" style="height:100px;width:16rem;background:green;">
+          121
+      </div>
+  </ion-slide-page>
+</ion-slides>-->
+    <!-- 轮播图模块 -->
+
+    <div class="row">
+      <div class="col col-100">
+        <a class="button button-block button-positive" ng-click="publish()">发布订单</a>
+      </div>
+    </div>
+
+    <ion-list>
+      <ion-item ng-repeat="listdata in listdatas" class="item item-thumbnail-left" ng-click="goDetail(listdata.itemId,listdata.style)">
+        <img ng-src="{{listdata.imgurl}}" style="border-radius:50%;">
+        <h2>{{listdata.name}}</h2>
+        <p style="transform:translateY(10px);">{{listdata.title}}</p>
+        <p style="float:right;">{{listdata.units}}</p>
+
+      </ion-item>
+    </ion-list>
+    <!-- <a class="button" href="#/tab/content1/10">跳转到内容</a> -->
+
+    <!-- <a class="button" href="#/news">news跳转到内容</a> -->
+  </ion-content>
+</ion-view>

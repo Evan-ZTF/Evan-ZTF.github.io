@@ -1,0 +1,22 @@
+<ion-view view-title="优惠券"    class="bgGray" hide-tabs="true">
+  <ion-content>
+      <div class="coupon">
+          <div class="row" ng-repeat="item in listdata" on-finish-render-filters>
+          <div class="qr">
+              券号: <span class="tCode">{{item.tCode}}</span>
+              <div class="bottomInfo">
+                <p class="title">{{item.title}}</p>
+                <p class="shopName">【{{item.shopName}}】</p>
+                <p class="timeText">{{item.time}}</p>
+                <p class="timeText">{{item.timeText}}</p>
+                
+              </div>
+          </div>
+       </div>
+  
+      </div>
+       
+       
+     
+  </ion-content>
+</ion-view>

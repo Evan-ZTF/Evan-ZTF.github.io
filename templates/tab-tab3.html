@@ -1,0 +1,45 @@
+<ion-view view-title="订单">
+  <ion-content>
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh(state)">
+    </ion-refresher>
+    <ul class="segment">
+      <li class="{{state==0?'active':''}}" ng-click="changeState(0)">已发订单</li>
+      <li class="{{state==1?'active':''}}" ng-click="changeState(1)">已接订单</li>
+    </ul>
+    <ion-slide-box on-slide-changed="slideHasChange($index)" active-slide="state" show-pager="false">
+      <ion-slide style="height:500px;">
+        <div class="box" style="height:500px;">
+          <ion-list>
+            <ion-item ng-repeat="item in listData" class="item item-thumbnail-left" ng-click="goDetail3(item)">
+              <img ng-src="{{item.imgurl}}">
+              <p>{{item.nickname}}</p>
+              <span>{{item.title}}</span>
+              <p>
+                {{item.pay}} {{item.reward}} {{item.status}}
+              </p>
+              <p>
+                {{item.finishtime}}
+              </p>
+              <p>创建时间:{{item.createtime}}</p>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-slide>
+      <ion-slide style="height:200px;">
+        <div class="box" style="height:200px;">
+          <ion-list>
+            <ion-item ng-repeat="item in listData2" class="item item-thumbnail-left" ng-click="goDetail32(item)">
+              <img ng-src="{{item.imgurl}}">
+              <p>{{item.nickname}}</p>
+              <span>{{item.title}}</span>
+              <p>
+                {{item.pay}} {{item.reward}} {{item.finishtime}} {{item.status}}
+              </p>
+              <p>接单时间:{{item.createtime}}</p>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-slide>
+    </ion-slide-box>
+  </ion-content>
+</ion-view>

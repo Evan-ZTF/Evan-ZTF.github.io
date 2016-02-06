@@ -1,0 +1,35 @@
+<ion-view view-title="登录" class="bgGray">
+  <ion-content>
+    <div style="padding:40px 20px 40px 20px;">
+      <img src="images/login_headimage.png" style="width:100%;">
+    </div>
+    <form action="">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">账户</span>
+          <input type="tel" placeholder="请输入手机号码" ng-model="phone">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">密码</span>
+          <input type="password" placeholder="请输入6~16位密码" ng-model="password">
+        </label>
+      </div>
+
+
+      <div class="row">
+        <div class="col col-100">
+          <a class="button button-block button-positive" ng-click="login(phone,password)">登录</a>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col col-100">
+          <a class="button button-block button-positive" onclick="schedule()">登录</a>
+        </div>
+      </div> -->
+
+      <a href="#/logins/regist" class="left">注册</a>
+      <a href="#/logins/forget" class="right">忘记密码</a>
+    </form>
+
+  </ion-content>
+</ion-view>

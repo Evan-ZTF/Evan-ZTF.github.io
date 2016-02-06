@@ -1,0 +1,94 @@
+<ion-view view-title="详情" hide-tabs="true">
+  <ion-content>
+    <ion-list ng-if="data.style==1">
+      <label class="item item-input">
+        <span class="input-label">标题</span>
+        <div>{{data.title}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">快递公司</span>
+        <div>{{data.company}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">收件地址</span>
+        <div>{{data.address}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">佣金</span>
+        <div>{{data.pay}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">包裹详情</span>
+        <div>{{data.bagdetail}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">备注</span>
+        <div>{{data.remark}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">赏金</span>
+        <div>{{data.reward}}</div>
+      </label>
+    </ion-list>
+
+
+    <ion-list ng-if="data.style==0">
+      <label class="item item-input">
+        <span class="input-label">标题</span>
+        <div>{{data.title}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">佣金</span>
+        <div>{{data.pay}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">备注</span>
+        <div>{{data.remark}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">赏金</span>
+        <div>{{data.reward}}</div>
+      </label>
+    </ion-list>
+
+
+    <ion-list ng-if="data.style==20">
+      <label class="item item-input">
+        <span class="input-label">优惠券</span>
+        <div>{{data.activityName}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">商家名</span>
+        <div>{{data.shopName}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">地址</span>
+        <div>{{data.address}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">手机号</span>
+        <div>{{data.phone}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">开始时间</span>
+        <div>{{data.startTime}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">结束时间</span>
+        <div>{{data.endTime}}</div>
+      </label>
+    </ion-list>
+
+    <div class="row" ng-show="data.style==0||data.style==1">
+      <div class="col col-100">
+        <a class="button button-block button-positive" ng-click="order(data)">确认接单</a>
+      </div>
+    </div>
+
+    <div class="row" ng-show="data.style==20">
+      <div class="col col-100">
+        <a class="button button-block button-positive" ng-click="rush(data)">抢优惠券</a>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

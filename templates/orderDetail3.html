@@ -1,0 +1,109 @@
+<ion-view view-title="{{status}}" hide-tabs="true" style="background:rgb(244,244,244);">
+  <ion-content>
+
+    <ion-list ng-if="data.style==1">
+      <div style="margin-top:10px;margin-bottom:10px;">
+        <label class="item item-input">
+          <span class="input-label">接单人</span>
+          <div>{{data.employee==''?'等待接单人中': data.employee }}</div>
+        </label>
+        <label class="item item-input">
+          <span class="input-label">接单人电话</span>
+          <div>{{data.employeephone==''?'等待接单人中': data.employee }}</div>
+        </label>
+      </div>
+
+      <label class="item item-input">
+        <span class="input-label">标题</span>
+        <div>{{data.title}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">联系人</span>
+        <div>{{data.contacts}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">联系电话</span>
+        <div>{{data.phone}}</div>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">佣金</span>
+        <div>{{data.pay}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">赏金</span>
+        <div>{{data.reward}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">快递公司</span>
+        <div>{{data.company}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">收件地址</span>
+        <div>{{data.address}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">包裹详情</span>
+        <div>{{data.bagdetail}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">备注</span>
+        <div>{{data.remark}}</div>
+      </label>
+
+    </ion-list>
+
+
+    <ion-list ng-if="data.style==0">
+      <label class="item item-input">
+        <span class="input-label">标题</span>
+        <div>{{data.title}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">联系人</span>
+        <div>{{data.contacts}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">联系电话</span>
+        <div>{{data.username}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">佣金</span>
+        <div>{{data.pay}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">备注</span>
+        <div>{{data.remark}}</div>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">赏金</span>
+        <div>{{data.reward}}</div>
+      </label>
+    </ion-list>
+
+    <div class="row" ng-show="status=='未付款'">
+      <div class="col col-50">
+        <a class="button button-block button-positive" ng-click="pay()">立即付款</a>
+      </div>
+      <div class="col col-50">
+        <a class="button button-block button-positive" ng-click="cancel(data)">取消订单</a>
+      </div>
+    </div>
+
+    <div class="row" ng-show="status=='发布中'">
+      <div class="col col-100">
+        <a class="button button-block button-positive" ng-click="cancel(data)">取消订单</a>
+      </div>
+    </div>
+
+    <div class="row" ng-show="status=='进行中'">
+      <div class="col col-50">
+        <a class="button button-block button-positive" href="tel:{{data.phone}}">申诉</a>
+      </div>
+      <div class="col col-50">
+        <a class="button button-block button-positive" ng-click="confirm(data)">确认完成</a>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>
