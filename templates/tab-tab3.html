@@ -1,5 +1,7 @@
-<ion-view view-title="订单">
-  <ion-content>
+<ion-view view-title="订单" ng-switch on="state">
+
+
+  <ion-content ng-switch-default lazy-scroll>
     <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh(state)">
     </ion-refresher>
     <ul class="segment">
@@ -7,7 +9,7 @@
       <li class="{{state==1?'active':''}}" ng-click="changeState(1)">已接订单</li>
     </ul>
 
-    <ion-list ng-show="state==0">
+    <ion-list>
       <ion-item ng-repeat="item in listData" class="item item-thumbnail-left" ng-click="goDetail3(item)">
         <img ng-src="{{item.imgurl}}">
         <p>{{item.nickname}}</p>
@@ -23,7 +25,19 @@
     </ion-list>
 
 
-    <ion-list ng-show="state==1">
+
+
+  </ion-content>
+
+  <ion-content ng-switch-when="1">
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh(state)">
+    </ion-refresher>
+    <ul class="segment">
+      <li class="{{state==0?'active':''}}" ng-click="changeState(0)">已发订单</li>
+      <li class="{{state==1?'active':''}}" ng-click="changeState(1)">已接订单</li>
+    </ul>
+
+    <ion-list>
       <ion-item ng-repeat="item in listData2" class="item item-thumbnail-left" ng-click="goDetail32(item)">
         <img ng-src="{{item.imgurl}}">
         <p>{{item.nickname}}</p>
@@ -34,18 +48,5 @@
         <p>接单时间:{{item.createtime}}</p>
       </ion-item>
     </ion-list>
-
-    <!-- <ion-slide-box on-slide-changed="slideHasChange($index)" active-slide="state" show-pager="false">
-      <ion-slide>
-        <div class="box">
-
-        </div>
-      </ion-slide>
-      <ion-slide>
-        <div class="box">
-
-        </div>
-      </ion-slide>
-    </ion-slide-box> -->
-  </ion-content>
+  </ion-contnet>
 </ion-view>

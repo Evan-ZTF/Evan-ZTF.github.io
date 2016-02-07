@@ -376,6 +376,27 @@ angular.module('myApp.controllers', [])
 
     $scope.changeState = function(num) {
       $scope.state = num;
+      console.log(num)
+        // switch (num) {
+        //   case 0:
+        //   myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=GetOrderList&userid=" + window.localStorage.userid, function(data) {
+        //     $scope.listData = data.data;
+        //     $ionicSlideBoxDelegate.update();
+        //   }, function(data) {
+        //     showAlert(data.desc);
+        //   })
+        //     break;
+        //     case 1:
+        //     myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=GetWorkList&userid=" + window.localStorage.userid, function(data) {
+        //       $scope.listData2 = data.data;
+        //       $ionicSlideBoxDelegate.update();
+        //     }, function(data) {
+        //       showAlert(data.desc)
+        //     })
+        //   default:
+      getInfo()
+
+      // }
     }
 
     $scope.goDetail3 = function(item) {
@@ -804,7 +825,7 @@ angular.module('myApp.controllers', [])
       showLoading().show()
       getInfo()
     })
-    $scope.pay=function(){
+    $scope.pay = function() {
       $state.go('tab.payIndex')
     }
     $scope.status = $stateParams.title
@@ -901,8 +922,8 @@ angular.module('myApp.controllers', [])
 })
 
 
-.controller('payIndexController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory, showLoading,$http) {
-    console.log($stateParams.itemId,$stateParams.style)
+.controller('payIndexController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory, showLoading, $http) {
+    console.log($stateParams.itemId, $stateParams.style)
     $scope.chooseType = "1"
     $scope.toggleType = function(index) {
       console.log(index)
@@ -920,32 +941,55 @@ angular.module('myApp.controllers', [])
     $scope.sub = function() {
       console.log($stateParams.itemId)
       showLoading().show()
-      myHTTP("http://115.29.114.161/papa/index.php?module=Item&type=getPayConfig&userid="+window.localStorage.userid+"&itemId="+$stateParams.itemId+"&style="+$stateParams.style,function(data){
-        console.log(data)
-      })
-      myHTTP("http://"+config.host+"/papaPay/example/pay.php?channel=alipay",function(data){
-        console.log("支付")
-        console.log(data)
-      })
-      // var obj={
-      //   "order_no":"14547495270078250079208741951819",
-      //   "amount":"200",
-      //   "app":"app_HCmTmTy9aLaHyPan",
-      //   "channel":"alipay",
-      //   "client_ip":"127.0.0.1",
-      //   "subject":"sdfdsf",
-      //   "body":"sdfsd"
-      // }
-      // $http({
-      //   url:"http://115.29.114.161/papaPay/example/pay.php",
-      //   method:"POST",
-      //   data:obj,
-      //   timeout:4000
-      // }).success(function(data){
-      //   console.log(data)
-      // }).error(function(error){
-      //   console.log(error)
+      // myHTTP("http://115.29.114.161/papa/index.php?module=Item&type=getPayConfig&userid=" + window.localStorage.userid + "&itemId=" + $stateParams.itemId + "&style=" + $stateParams.style, function(data) {
+      //   // console.log(data)
       // })
+      $http({
+        url:"http://115.29.114.161/papaPay/example/pay.php?channel=alipay",
+        method:"GET",
+        timeout:4000
+      }).success(function(data){
+        alert("准备发起支付")
+        try {
+          pingpp.createPayment(data, function(result) {
+            showAlert("支付成功")
+            // CommonJs.AlertPopup('suc: ' + result); //"success"
+          }, function(result) {
+            showAlert("支付失败")
+            // CommonJs.AlertPopup('err: ' + result); //"fail"|"cancel"|"invalid"
+          });
+        } catch (e) {
+          alert("错误")
+        }
+      }).error(function(){
+        alert("我错了")
+      })
+      // myHTTP("http://115.29.114.161/papaPay/example/pay.php?channel=alipay", function(data) {
+      //     console.log("支付")
+      //
+      //     console.log(data)
+      //     alert("准备发起支付")
+      //
+      //   })
+        // var obj={
+        //   "order_no":"14547495270078250079208741951819",
+        //   "amount":"200",
+        //   "app":"app_HCmTmTy9aLaHyPan",
+        //   "channel":"alipay",
+        //   "client_ip":"127.0.0.1",
+        //   "subject":"sdfdsf",
+        //   "body":"sdfsd"
+        // }
+        // $http({
+        //   url:"http://115.29.114.161/papaPay/example/pay.php",
+        //   method:"POST",
+        //   data:obj,
+        //   timeout:4000
+        // }).success(function(data){
+        //   console.log(data)
+        // }).error(function(error){
+        //   console.log(error)
+        // })
 
       // myHTTP("http://" + config.host + "/papa/index.php?module=Item&type=payItem&userid=" + window.localStorage.userid + "&itemId=" + $stateParams.itemId + "&style=" + $stateParams.style, function(data) {
       //   showAlert(data.desc)
@@ -955,7 +999,7 @@ angular.module('myApp.controllers', [])
       // })
     }
   })
-  .controller('loginController', function($scope, $stateParams, $state, showAlert, myHTTP,showLoading) {
+  .controller('loginController', function($scope, $stateParams, $state, showAlert, myHTTP, showLoading) {
     // if(window.localStorage.userid){
     //      $state.go("tab.tab1");
     //  }
