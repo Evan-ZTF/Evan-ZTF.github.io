@@ -945,7 +945,7 @@ angular.module('myApp.controllers', [])
       //   // console.log(data)
       // })
       $http({
-        url:"http://115.29.114.161/papaPay/example/pay.php?channel=alipay",
+        url:"http://115.29.114.161/papa/index.php?module=Item&type=PayItem&userid="+window.localStorage.userid+"&itemId="+$stateParams.itemId+"&style="+$stateParams.style+"&&channel=alipay",
         method:"GET",
         timeout:4000
       }).success(function(data){
@@ -953,10 +953,12 @@ angular.module('myApp.controllers', [])
         try {
           pingpp.createPayment(data, function(result) {
             showAlert("支付成功")
+            console.log(result)
             showLoading().hide()
             // CommonJs.AlertPopup('suc: ' + result); //"success"
           }, function(result) {
             showLoading().hide()
+            console.log(result)
             showAlert("支付失败")
             // CommonJs.AlertPopup('err: ' + result); //"fail"|"cancel"|"invalid"
           });
