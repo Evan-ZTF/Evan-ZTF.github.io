@@ -953,16 +953,18 @@ angular.module('myApp.controllers', [])
         try {
           pingpp.createPayment(data, function(result) {
             showAlert("支付成功")
+            showLoading().hide()
             // CommonJs.AlertPopup('suc: ' + result); //"success"
           }, function(result) {
+            showLoading().hide()
             showAlert("支付失败")
             // CommonJs.AlertPopup('err: ' + result); //"fail"|"cancel"|"invalid"
           });
         } catch (e) {
-          alert("错误")
+          showAlert("ping++错误")
         }
       }).error(function(){
-        alert("我错了")
+        showAlert("ajax错误")
       })
       // myHTTP("http://115.29.114.161/papaPay/example/pay.php?channel=alipay", function(data) {
       //     console.log("支付")
