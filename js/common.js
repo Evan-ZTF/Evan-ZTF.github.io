@@ -90,7 +90,8 @@ function checkConnection() {
   // alert('网络状态: ' + states[networkState]);
   return states[networkState];
 }
-function alertErr(){
+
+function alertErr() {
   window.onerror = function(msg, url, line) {
     var idx = url.lastIndexOf("/");
     if (idx > -1) {

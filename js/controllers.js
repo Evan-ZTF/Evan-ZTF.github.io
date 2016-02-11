@@ -1,5 +1,12 @@
 angular.module('myApp.controllers', [])
   .controller('tab1Controller', function($scope, $state, $ionicActionSheet, myHTTP, $ionicSlideBoxDelegate, showAlert, $ionicPopup, showLoading) {
+  //   (function(){
+  //     // jpushService.init()
+  //     $ionicPopup.alert({
+  //     title:'提示',
+  //     template:'启动推送服务成功'
+  //   });
+  // })()
     $scope.goDetail = function(itemId, style) {
       console.log(itemId, style)
       $state.go("tab.orderDetail", {
@@ -17,9 +24,9 @@ angular.module('myApp.controllers', [])
           //   showAlert("提示","发现新版本")
           // }
       })
-      // if(!window.localStorage.userid){
-      //   $state.go("logins.login");
-      // }
+      if(!window.localStorage.userid){
+        $state.go("logins.login");
+      }
 
 
     $scope.refresh = function() {
@@ -74,7 +81,7 @@ angular.module('myApp.controllers', [])
       })
     }
     $scope.$on("$ionicView.beforeEnter", function() {
-      // showLoading().show()
+      // showLoading.show()
       getInfo()
     })
 
@@ -153,21 +160,12 @@ angular.module('myApp.controllers', [])
     }
     getInfo()
     $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+
       $('.row  .qr').each(function() {
         var that = $(this);
         var tCode = that.find('.tCode').text();
-        //  var title=that.find('.title').text();
-        //  var shopName=that.find('.shopName').text();
-        //  var timeText=that.find('.timeText').text();
-        //  var info={
-        //      tCode:tCode,
-        //      title:title,
-        //      shopName:shopName,
-        //      timeText:timeText
-        //  }
-        //  var json=toUtf8(JSON.stringify(info))
         that.qrcode({
-          render: "canvas", //table方式
+          render: "canvas",
           width: 150, //宽度
           height: 150, //高度
           text: tCode //任意内容
@@ -216,28 +214,27 @@ angular.module('myApp.controllers', [])
       phone: 3,
       adress: 4,
       company: 5,
-      finishtime: "",
+      finishtime: new Date(Date.parse(new Date())),
       pay: "6",
       bagdetail: 7,
       remark: 8,
       reward: 9
     }
 
-
     $scope.info = info;
-    $(document).ready(function() {
-      setTimeout(function() {
-        $('input[type="datetime-local"]').val(getTime())
-        console.log($('input[type="datetime-local"]').val())
-      })
-    })
+    // $(document).ready(function() {
+    //   setTimeout(function() {
+    //     $('input[type="datetime-local"]').val(getTime())
+    //     console.log($('input[type="datetime-local"]').val())
+    //   })
+    // })
 
     function sendInfo() {
-      showLoading().show()
+      showLoading.show()
       $scope.reback = false;
       myHTTP("http://" + config.host + "/papa/index.php?module=Item&type=PostItem&userid=" + window.localStorage.userid + "&contacts=" + info.contacts + "&phone=" + info.phone + "&title=" + info.title + "&pay=" + info.pay + "&reward=" + info.reward + "&remark=" + info.remark + "&company=" + info.company + "&address=" + info.adress + "&bagdetail=" + info.bagdetail + "&finishtime=" + formatDateTime(info.finishtime) + "&style=1", function(data) {
         showAlert(data.desc)
-        $state.go('tab.payIndex', {
+        $state.go('payIndex', {
           "itemId": data.data.itemId,
           "style": data.data.style
         })
@@ -249,6 +246,9 @@ angular.module('myApp.controllers', [])
       })
     }
     $scope.sub = function() {
+      console.log(info.title)
+      return false;
+      console.log(info.finishtime)
       check(
         sendInfo
       );
@@ -256,7 +256,7 @@ angular.module('myApp.controllers', [])
     }
 
   })
-  .controller('pubOtherController', function($scope, $stateParams, showAlert, myHTTP, $state, showLoading) {
+  .controller('pubOtherController', function($scope, $stateParams, showAlert, myHTTP, $state, showLoading,$filter) {
     function check(Func) {
       console.log(info.finishtime)
       if (info.title.length == 0) {
@@ -287,25 +287,25 @@ angular.module('myApp.controllers', [])
       title: 1,
       contacts: 2,
       phone: "11111111111",
-      finishtime: "",
+      finishtime: new Date(Date.parse(new Date())),
       pay: "5",
       remark: 6,
       reward: 7
     }
     $scope.info = info;
-    $(document).ready(function() {
-      setTimeout(function() {
-        $('input[type="datetime-local"]').val(getTime())
-        console.log($('input[type="datetime-local"]').val())
-      })
-    })
+    // $(document).ready(function() {
+    //   setTimeout(function() {
+    //     $('input[type="datetime-local"]').val(getTime())
+    //     console.log($('input[type="datetime-local"]').val())
+    //   })
+    // })
 
     function sendInfo() {
-      showLoading().show()
+      showLoading.show()
       $scope.reback = false;
       myHTTP("http://" + config.host + "/papa/index.php?module=Item&type=PostItem&userid=" + window.localStorage.userid + "&contacts=" + info.contacts + "&phone=" + info.phone + "&title=" + info.title + "&pay=" + info.pay + "&reward=" + info.reward + "&remark=" + info.remark + "&finishtime=" + formatDateTime(info.finishtime) + "&style=0", function(data) {
         showAlert(data.desc)
-        $state.go('tab.payIndex', {
+        $state.go('payIndex', {
           "itemId": data.data.itemId,
           "style": data.data.style
         })
@@ -318,7 +318,6 @@ angular.module('myApp.controllers', [])
       })
     }
     $scope.sub = function() {
-      console.log(info.finishtime)
       check(
         sendInfo
       );
@@ -333,7 +332,7 @@ angular.module('myApp.controllers', [])
       }, 2000)
     }
     $scope.$on("$ionicView.beforeEnter", function() {
-      showLoading().show()
+      showLoading.show()
       getInfo()
     })
 
@@ -414,7 +413,7 @@ angular.module('myApp.controllers', [])
       })
     }
     $scope.$on("$ionicView.beforeEnter", function() {
-      showLoading().show()
+      showLoading.show()
       getInfo()
     })
 
@@ -601,7 +600,7 @@ angular.module('myApp.controllers', [])
           showAlert("请输入4位验证码")
           return false;
         }
-        showLoading().show()
+        showLoading.show()
         myHTTP("http://" + config.host + "/papa/index.php?module=user&type=forget&username=" + phone + '&code=' + code + '&codeId=' + codeid + '&password=' + psd1, function(data) {
           showAlert(data.desc)
           window.localStorage.userid = data.data.userid;
@@ -728,7 +727,7 @@ angular.module('myApp.controllers', [])
           showAlert("请输入4位验证码")
           return false;
         }
-        showLoading().show()
+        showLoading.show()
         myHTTP("http://" + config.host + "/papa/index.php?module=user&type=register&username=" + phone + '&code=' + code + '&codeId=' + codeid + '&password=' + psd1, function(data) {
           showAlert(data.desc)
           window.localStorage.userid = data.data.userid;
@@ -763,7 +762,7 @@ angular.module('myApp.controllers', [])
       })
     }
     $scope.$on("$ionicView.beforeEnter", function() {
-      showLoading().show()
+      showLoading.show()
       getInfo()
     })
 
@@ -783,7 +782,7 @@ angular.module('myApp.controllers', [])
       getInfo();
     }
     $scope.$on("$ionicView.beforeEnter", function() {
-      showLoading().show()
+      showLoading.show()
       getInfo()
     })
 
@@ -822,11 +821,15 @@ angular.module('myApp.controllers', [])
       "bagdetail": " "
     }
     $scope.$on("$ionicView.beforeEnter", function() {
-      showLoading().show()
+      showLoading.show()
       getInfo()
     })
-    $scope.pay = function() {
-      $state.go('tab.payIndex')
+    $scope.pay = function(data) {
+      console.log(data.itemId)
+      $state.go('payIndex', {
+        "itemId":data.itemId,
+        "style":data.style
+      })
     }
     $scope.status = $stateParams.title
     console.log($stateParams.itemId, $stateParams.style)
@@ -883,7 +886,7 @@ angular.module('myApp.controllers', [])
     "bagdetail": " "
   }
   $scope.$on("$ionicView.beforeEnter", function() {
-    showLoading().show()
+    showLoading.show()
     getInfo()
   })
   $scope.confirm = function(data) {
@@ -923,41 +926,59 @@ angular.module('myApp.controllers', [])
 
 
 .controller('payIndexController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory, showLoading, $http) {
+    // showLoading.show(500)
+    showLoading.show(500)
     console.log($stateParams.itemId, $stateParams.style)
     $scope.chooseType = "1"
+    $scope.payment="wx"
     $scope.toggleType = function(index) {
       console.log(index)
       switch (index) {
         case 1:
           $scope.chooseType = "1"
           console.log("微信");
+          $scope.payment="wx"
           break;
         case 2:
           $scope.chooseType = "2"
           console.log("支付宝");
+          $scope.payment="alipay"
           break;
       }
     }
+    $scope.channel=function(){
+      console.log(111)
+      // $ionicHistory.goBack(-2)
+      $state.go('tab.tab1')
+    }
     $scope.sub = function() {
       console.log($stateParams.itemId)
-      showLoading().show()
+      console.log($scope.payment)
+      showLoading.show()
       // myHTTP("http://115.29.114.161/papa/index.php?module=Item&type=getPayConfig&userid=" + window.localStorage.userid + "&itemId=" + $stateParams.itemId + "&style=" + $stateParams.style, function(data) {
       //   // console.log(data)
       // })
       $http({
-        url:"http://115.29.114.161/papa/index.php?module=Item&type=PayItem&userid="+window.localStorage.userid+"&itemId="+$stateParams.itemId+"&style="+$stateParams.style+"&&channel=alipay",
+        url:"http://115.29.114.161/papa/index.php?module=Item&type=PayItem&userid="+window.localStorage.userid+"&itemId="+$stateParams.itemId+"&style="+$stateParams.style+"&&channel="+$scope.payment,
         method:"GET",
         timeout:4000
       }).success(function(data){
         alert("准备发起支付")
+        if(data.result!="success"){
+          showLoading.hide()
+          showAlert(data.desc)
+          return false;
+        }
         try {
-          pingpp.createPayment(data, function(result) {
+          pingpp.createPayment(data.data, function(result) {
+            showLoading.hide()
             showAlert("支付成功")
+            $state.go('tab.tab1')
             console.log(result)
-            showLoading().hide()
+
             // CommonJs.AlertPopup('suc: ' + result); //"success"
           }, function(result) {
-            showLoading().hide()
+            showLoading.hide()
             console.log(result)
             showAlert("支付失败")
             // CommonJs.AlertPopup('err: ' + result); //"fail"|"cancel"|"invalid"
@@ -1003,23 +1024,18 @@ angular.module('myApp.controllers', [])
       // })
     }
   })
-  .controller('loginController', function($scope, $stateParams, $state, showAlert, myHTTP, showLoading) {
-    // if(window.localStorage.userid){
-    //      $state.go("tab.tab1");
-    //  }
-    //条件判断自动登录
-    // setTimeout(function(){
-    //   $state.go("tab.tab1");
-    // },3000)
-    // window.localStorage.a=3
-    // $state.go("tab.tab1");
-    // showAlert("提示","请输入有效手机号和密码")
+  .controller('loginController', function($scope, $stateParams, $state, showAlert, myHTTP, showLoading,showBottom) {
+    if(window.localStorage.userid){
+      showLoading.show()
+      setTimeout(function(){
+        $state.go("tab.tab1");
+      },500)
+     }
 
     $scope.phone = "11111111111"
     $scope.password = "111111"
 
     $scope.login = function(phone, password) {
-      showLoading().show()
       if (phone.length != 11) {
         showAlert("请输入11位手机号码")
       } else if (password.length < 6 || password.length > 16) {
@@ -1027,17 +1043,20 @@ angular.module('myApp.controllers', [])
       } else {
         myHTTP("http://" + config.host + "/papa/index.php?module=user&type=login&username=" + phone + '&password=' + password, function(data) {
           // showAlert("提示",data.desc)
+          showLoading.show()
           window.localStorage.userid = data.data.userid;
           window.localStorage.authid = data.data.authid;
           window.localStorage.scretid = data.data.scretid;
-          // alert(localStorage.scretid)
-          $state.go("tab.tab1", {}, {
-            reload: true
-          });
 
+          // alert(localStorage.scretid)
+          setTimeout(function(){
+            $state.go("tab.tab1", {}, {
+              reload: true
+            });
+          },500)
         }, function(data) {
           showAlert(data.desc)
-        }, "", event)
+        }, "")
       }
     }
   })

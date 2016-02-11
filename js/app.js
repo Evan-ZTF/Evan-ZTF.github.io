@@ -23,43 +23,43 @@ myapp.run(function($ionicPlatform, $ionicPopup) {
 
     // checkConnection();
   });
-// alertErr()
+  // alertErr()
 })
-myapp.directive('onFinishRenderFilters', function ($timeout) {
-    return {
+myapp.directive('onFinishRenderFilters', function($timeout) {
+  return {
     restrict: 'A',
     link: function(scope, element, attr) {
-    if (scope.$last === true) {
-    $timeout(function() {
-    scope.$emit('ngRepeatFinished');
-    });
+      if (scope.$last === true) {
+        $timeout(function() {
+          scope.$emit('ngRepeatFinished');
+        });
+      }
     }
-    }
-    };
+  };
 });
 myapp.directive('hideTabs', function($rootScope) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attributes) {
-            scope.$on('$ionicView.beforeEnter', function() {
-                scope.$watch(attributes.hideTabs, function(value){
-                    $rootScope.hideTabs = value;
-                });
-            });
+  return {
+    restrict: 'A',
+    link: function(scope, element, attributes) {
+      scope.$on('$ionicView.beforeEnter', function() {
+        scope.$watch(attributes.hideTabs, function(value) {
+          $rootScope.hideTabs = value;
+        });
+      });
 
-            scope.$on('$ionicView.beforeLeave', function() {
-                $rootScope.hideTabs = false;
-            });
-        }
-    };
+      scope.$on('$ionicView.beforeLeave', function() {
+        $rootScope.hideTabs = false;
+      });
+    }
+  };
 });
 myapp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-//   $ionicConfigProvider.views.maxCache(0);
+  //   $ionicConfigProvider.views.maxCache(0);
   $ionicConfigProvider.platform.android.tabs.position('standard');
   $ionicConfigProvider.platform.android.navBar.alignTitle('center');
   $ionicConfigProvider.tabs.style("standard");
   // $ionicConfigProvider.scrolling.jsScrolling(false);//原生滚动
-//   $ionicConfigProvider.views.swipeBackEnabled(false);
+  //   $ionicConfigProvider.views.swipeBackEnabled(false);
   // 流畅开始
   // $ionicNativeTransitionsProvider.setDefaultOptions({
   //       duration: 300, // in milliseconds (ms), default 400,
@@ -97,44 +97,53 @@ myapp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) 
       templateUrl: "templates/logins.html",
     })
     .state('logins.login', {
-        url: '/login',
-        cache:false,
-        views: {
-          'logins-login1': {
-            templateUrl: "templates/login.html",
-            controller: 'loginController'
-          }
+      url: '/login',
+      cache: false,
+      views: {
+        'logins-login1': {
+          templateUrl: "templates/login.html",
+          controller: 'loginController'
         }
-      })
-      .state('logins.regist', {
-          url: '/regist',
-          views: {
-            'logins-login1': {
-              templateUrl: "templates/regist.html",
-              controller: 'registController'
-            }
-          }
-        })
-      .state('logins.forget', {
-          url: '/forget',
-          views: {
-            'logins-login1': {
-              templateUrl: "templates/forget.html",
-              controller: 'forgetController'
-            }
-          }
-        })
-        .state('tab.bind', {
-            url: '/bind',
-            views: {
-              'tab-tab1': {
-                templateUrl: "templates/bind.html",
-                controller: 'bindController'
-              }
-            }
-          })
-  // params:{'message':"1212"},
-  .state('tab.tab1', {
+      }
+    })
+    .state('logins.regist', {
+      url: '/regist',
+      views: {
+        'logins-login1': {
+          templateUrl: "templates/regist.html",
+          controller: 'registController'
+        }
+      }
+    })
+    .state('logins.agreenment', {
+      url: '/agreement',
+      views: {
+        'logins-login1': {
+          templateUrl: "templates/agreement.html"
+          // controller: 'agreementController'
+        }
+      }
+    })
+    .state('logins.forget', {
+      url: '/forget',
+      views: {
+        'logins-login1': {
+          templateUrl: "templates/forget.html",
+          controller: 'forgetController'
+        }
+      }
+    })
+    .state('tab.bind', {
+      url: '/bind',
+      views: {
+        'tab-tab1': {
+          templateUrl: "templates/bind.html",
+          controller: 'bindController'
+        }
+      }
+    })
+    // params:{'message':"1212"},
+    .state('tab.tab1', {
       url: '/tab1',
       views: {
         'tab-tab1': {
@@ -146,52 +155,47 @@ myapp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) 
       // nativeTransitions:null
     })
     .state('tab.pubExpress', {
-        url: '/pubExpress',
-        views: {
-          'tab-tab1': {
-            templateUrl: "templates/pubExpress.html",
-            controller: 'pubExpressController'
-          }
+      url: '/pubExpress',
+      views: {
+        'tab-tab1': {
+          templateUrl: "templates/pubExpress.html",
+          controller: 'pubExpressController'
         }
-      })
-      .state('tab.pubOther', {
-          url: '/pubOther',
-          views: {
-            'tab-tab1': {
-              templateUrl: "templates/pubOther.html",
-              controller: 'pubOtherController'
-            }
-          }
-        })
-        .state('setting', {
-            url: '/setting',
+      }
+    })
+    .state('tab.pubOther', {
+      url: '/pubOther',
+      views: {
+        'tab-tab1': {
+          templateUrl: "templates/pubOther.html",
+          controller: 'pubOtherController'
+        }
+      }
+    })
+    .state('setting', {
+      url: '/setting',
+      templateUrl: "templates/setting.html",
+      controller: 'settingController'
 
-                templateUrl: "templates/setting.html",
-                controller: 'settingController'
-
-          })
-          .state('tab.payIndex', {
-              url: '/payIndex',
-              params:{
-               "itemId":null,
-               "style":null
-              },
-              views: {
-                'tab-tab1': {
-                  templateUrl: "templates/payIndex.html",
-                  controller: 'payIndexController'
-                }
-              }
-            })
-          .state('tab.coupon', {
-              url: '/coupon',
-              views: {
-                'tab-tab1': {
-                  templateUrl: "templates/coupon.html",
-                  controller: 'couponController'
-                }
-              }
-            })
+    })
+    .state('payIndex', {
+      url: '/payIndex',
+      params: {
+        "itemId": null,
+        "style": null
+      },
+      templateUrl: "templates/payIndex.html",
+      controller: 'payIndexController'
+    })
+    .state('tab.coupon', {
+      url: '/coupon',
+      views: {
+        'tab-tab1': {
+          templateUrl: "templates/coupon.html",
+          controller: 'couponController'
+        }
+      }
+    })
     .state('tab.tab2', {
       url: '/tab2',
       views: {
@@ -205,9 +209,9 @@ myapp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) 
     })
     .state('tab.orderDetail', {
       url: '/orderDetail',
-      params:{
-        "itemId":null,
-        "style":null
+      params: {
+        "itemId": null,
+        "style": null
       },
       views: {
         'tab-tab1': {
@@ -218,8 +222,8 @@ myapp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) 
     })
     .state('tab.orderDetail2', {
       url: '/orderDetail2',
-      params:{
-        "shopId":null,
+      params: {
+        "shopId": null,
       },
       views: {
         'tab-tab2': {
@@ -230,10 +234,10 @@ myapp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) 
     })
     .state('tab.orderDetail3', {
       url: '/orderDetail3',
-      params:{
-        "itemId":null,
-        "style":null,
-        "title":null
+      params: {
+        "itemId": null,
+        "style": null,
+        "title": null
       },
       views: {
         'tab-tab3': {
@@ -244,10 +248,10 @@ myapp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) 
     })
     .state('tab.orderDetail32', {
       url: '/orderDetail32',
-      params:{
-        "itemId":null,
-        "style":null,
-        "title":null
+      params: {
+        "itemId": null,
+        "style": null,
+        "title": null
       },
       views: {
         'tab-tab3': {

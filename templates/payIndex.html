@@ -1,4 +1,8 @@
-<ion-view view-title="在线支付" hide-tabs="true">
+<ion-header-bar align-title="center" class="bar-stable bar-header">
+  <!-- <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i class="icon ion-ios-arrow-back"></i>
+      <span class="back-text"><span class="default-title hide">返回</span><span class="previous-title">订单</span></span></button> -->
+<div class="title title-center header-item">在线支付</div>
+</ion-header-bar>
   <ion-content>
 
     <ion-list>
@@ -43,8 +47,7 @@
     </div>
     <div class="row" >
       <div class="col col-80" style="margin:0 auto;">
-        <a class="button button-block button-positive" style="background:gray;border:1px solid gray;">取消支付</a>
+        <a class="button button-block button-positive" style="background:gray;border:1px solid gray;" ng-click="channel()">取消支付</a>
       </div>
     </div>
   </ion-content>
-</ion-view>

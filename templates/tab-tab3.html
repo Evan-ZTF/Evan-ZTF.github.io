@@ -1,6 +1,5 @@
 <ion-view view-title="订单" ng-switch on="state">
 
-
   <ion-content ng-switch-default lazy-scroll>
     <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh(state)">
     </ion-refresher>
@@ -12,21 +11,19 @@
     <ion-list>
       <ion-item ng-repeat="item in listData" class="item item-thumbnail-left" ng-click="goDetail3(item)">
         <img ng-src="{{item.imgurl}}">
-        <p>{{item.nickname}}</p>
-        <span>{{item.title}}</span>
-        <p>
-          {{item.pay}} {{item.reward}} {{item.status}}
+        <!-- <p>{{item.nickname}}</p> -->
+        <p>标题:{{item.title}}
+          <span style="float:right">{{item.status}}</span>
         </p>
-        <p>
-          {{item.finishtime}}
+        <p style="font-size:12px;">
+          佣金:<span style="color:#f40;">${{item.pay}}</span> 赏金:<span style="color:#f40;">${{item.reward}}</span>
         </p>
-        <p>创建时间:{{item.createtime}}</p>
+        <p style="font-size:12px;">
+          完成时间:{{item.finishtime}}
+        </p>
+        <p style="font-size:12px;">发布时间:{{item.createtime}}</p>
       </ion-item>
     </ion-list>
-
-
-
-
   </ion-content>
 
   <ion-content ng-switch-when="1">
@@ -40,12 +37,15 @@
     <ion-list>
       <ion-item ng-repeat="item in listData2" class="item item-thumbnail-left" ng-click="goDetail32(item)">
         <img ng-src="{{item.imgurl}}">
-        <p>{{item.nickname}}</p>
-        <span>{{item.title}}</span>
-        <p>
-          {{item.pay}} {{item.reward}} {{item.finishtime}} {{item.status}}
+        <p>{{item.nickname}}
+        <span style="float:right;">{{item.status}}</span>
         </p>
-        <p>接单时间:{{item.createtime}}</p>
+        <span>标题:{{item.title}}</span>
+        <p style="font-size:12px;">
+          佣金: <span style="color:#f40;">{{item.pay}}</span> 赏金:<span style="color:#f40;">{{item.reward}}</span>
+        </p>
+        <p style="font-size:12px;">完成时间:{{item.finishtime}}</p>
+        <p style="font-size:12px;">接单时间:{{item.createtime}}</p>
       </ion-item>
     </ion-list>
   </ion-contnet>
