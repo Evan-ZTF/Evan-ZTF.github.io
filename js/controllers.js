@@ -246,8 +246,6 @@ angular.module('myApp.controllers', [])
       })
     }
     $scope.sub = function() {
-      console.log(info.title)
-      return false;
       console.log(info.finishtime)
       check(
         sendInfo
