@@ -971,7 +971,7 @@ angular.module('myApp.controllers', [])
           pingpp.createPayment(data.data, function(result) {
             showLoading.hide()
             showAlert("支付成功")
-            $state.go('tab.tab1')
+            // $state.go('tab.tab1')
             console.log(result)
 
             // CommonJs.AlertPopup('suc: ' + result); //"success"
