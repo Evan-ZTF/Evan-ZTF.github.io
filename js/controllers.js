@@ -196,10 +196,10 @@ angular.module('myApp.controllers', [])
         showAlert("时间必须大于当前时间且距离现在不超过一周");
         return false;
       } else if (info.pay.length == 0 || (isNaN(info.pay))) {
-        showAlert("请输入佣金,佣金应该为数字");
+        showAlert("请输入佣金,佣金应该为大于0的数字");
         return false;
-      } else if (info.reward.length == 0 || (isNaN(info.reward))) {
-        showAlert("请输入赏金,赏金应该为数字");
+      } else if (info.reward.length < 0 || (isNaN(info.reward))) {
+        showAlert("请输入赏金,赏金应该为大于等于0的数字");
         return false;
       } else {
         Func()
@@ -270,10 +270,10 @@ angular.module('myApp.controllers', [])
         showAlert("时间必须大于当前时间且距离现在不超过一周");
         return false;
       } else if (info.pay.length == 0 || (isNaN(info.pay))) {
-        showAlert("请输入佣金,佣金应该为数字");
+        showAlert("请输入佣金,佣金应该为大于0的数字");
         return false;
-      } else if (info.reward.length == 0 || (isNaN(info.reward))) {
-        showAlert("请输入赏金,赏金应该为数字");
+      } else if (info.reward.length < 0 || (isNaN(info.reward))) {
+        showAlert("请输入赏金,赏金应该为大于等于0的数字");
         return false;
       } else {
         Func()
@@ -971,7 +971,7 @@ angular.module('myApp.controllers', [])
           pingpp.createPayment(data.data, function(result) {
             showLoading.hide()
             showAlert("支付成功")
-            // $state.go('tab.tab1')
+            $state.go('tab.tab1')
             console.log(result)
 
             // CommonJs.AlertPopup('suc: ' + result); //"success"
