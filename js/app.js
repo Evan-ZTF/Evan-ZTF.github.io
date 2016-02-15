@@ -52,6 +52,7 @@ var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
       scope.$on('$ionicView.beforeLeave', function() {
         $rootScope.hideTabs = false;
       });
+
     }
   };
 })
@@ -138,7 +139,7 @@ var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
     .state('tab.bind', {
       url: '/bind',
       views: {
-        'tab-tab1': {
+        'tab-tab4': {
           templateUrl: "templates/bind.html",
           controller: 'bindController'
         }
@@ -174,15 +175,23 @@ var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
         }
       }
     })
-    .state('setting', {
+    .state('tab.setting', {
       url: '/setting',
-      templateUrl: "templates/setting.html",
-      controller: 'settingController'
+      views: {
+        'tab-tab4': {
+          templateUrl: "templates/setting.html",
+          controller: 'settingController'
+        }
+      }
     })
-    .state('withdrawCash', {
+    .state('tab.withdrawCash', {
       url: '/withdrawCash',
-      templateUrl: "templates/withdrawCash.html",
-      controller: 'withdrawCashController'
+      views: {
+        'tab-tab4': {
+          templateUrl: "templates/withdrawCash.html",
+          controller: 'withdrawCashController'
+        }
+      }
     })
     .state('payIndex', {
       url: '/payIndex',
@@ -196,7 +205,7 @@ var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
     .state('tab.coupon', {
       url: '/coupon',
       views: {
-        'tab-tab1': {
+        'tab-tab4': {
           templateUrl: "templates/coupon.html",
           controller: 'couponController'
         }
@@ -274,8 +283,15 @@ var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
           controller: 'tab3Controller'
         }
       }
-      // ,
-      // nativeTransitions:null
+    })
+    .state('tab.tab4', {
+      url: '/tab4',
+      views: {
+        'tab-tab4': {
+          templateUrl: "templates/tab-tab4.html",
+          controller: 'tab4Controller'
+        }
+      }
     })
 
   $urlRouterProvider.otherwise('/logins/login');

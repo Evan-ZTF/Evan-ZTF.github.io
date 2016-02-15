@@ -1,7 +1,7 @@
 <ion-side-menus>
   <ion-side-menu-content edge-drag-threshold="true">
 
-    <ion-nav-bar class="bar-stable">
+    <ion-nav-bar class="bar-stable" >
       <ion-nav-back-button>
       </ion-nav-back-button>
     </ion-nav-bar>
@@ -20,13 +20,17 @@
       </ion-tab>
 
       <!-- Account Tab -->
-      <ion-tab title="订单" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/tab3">
+      <ion-tab title="订单" icon-off="ion-ios-copy-outline" icon-on="ion-ios-copy" href="#/tab/tab3">
         <ion-nav-view name="tab-tab3"></ion-nav-view>
+      </ion-tab>
+
+      <ion-tab title="我" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/tab4">
+        <ion-nav-view name="tab-tab4"></ion-nav-view>
       </ion-tab>
     </ion-tabs>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left" class="sideBar">
+  <!-- <ion-side-menu side="left" class="sideBar">
     <ion-content>
 
       <div class="topInfo item">
@@ -74,6 +78,6 @@
 
       </ion-list>
     </ion-content>
-  </ion-side-menu>
+  </ion-side-menu> -->
 
 </ion-side-menus>

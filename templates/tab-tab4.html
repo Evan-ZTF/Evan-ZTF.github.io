@@ -1,0 +1,52 @@
+<ion-view view-title="我" ng-switch on="state" hide-nav-bar="true">
+  <ion-content ng-switch-default lazy-scroll class="sideBar">
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh(state)">
+    </ion-refresher>
+
+
+    <div class="topInfo item">
+      <img ng-src="{{infoData.imgurl}}" class="avatar">
+      <div>{{infoData.nickname}}</div>
+    </div>
+
+    <ion-list>
+
+      <ion-list>
+        <div ng-repeat="group in globalJWinfo">
+          <ion-item class="item item-icon-left item-icon-right" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}">
+            <i class="icon ion-ios-person-outline"></i>{{group.name}}
+            <i class="icon ion-ios-arrow-down"></i>
+          </ion-item>
+          <ion-item class="item-accordion " ng-repeat="item in globalJWinfo[0].items" ng-show="isGroupShown(group)" ng-click="goto(item.title)">
+            {{item.title}}
+          </ion-item>
+        </div>
+      </ion-list>
+      <ion-item>
+        <i class="icon ion-ios-cart-outline"></i> &nbsp;
+        <span>{{infoData.score}}分</span>
+      </ion-item>
+      <ion-item menu-close ng-click="goWithDrawCash()">
+        <i class="icon ion-ios-cart-outline"></i> &nbsp;
+        <span>提现</span>
+      </ion-item>
+      <ion-item>
+        <i class="icon ion-ios-cart-outline"></i> &nbsp;
+        <span>五星好评</span>
+      </ion-item>
+      <ion-item  ng-click="goCoupon()" menu-close>
+        <i class="icon ion-ios-gear-outline"></i> &nbsp;
+        <span>我的优惠券</span>
+      </ion-item>
+      <ion-item  ng-click="logOn()">
+        <i class="icon ion-ios-gear-outline"></i> &nbsp;
+        <span>注销</span>
+      </ion-item>
+      <ion-item menu-close ng-click="goSetting()">
+        <i class="icon ion-ios-gear-outline"></i> &nbsp;
+        <span>设置</span>
+      </ion-item>
+
+    </ion-list>
+  </ion-contnet>
+</ion-view>

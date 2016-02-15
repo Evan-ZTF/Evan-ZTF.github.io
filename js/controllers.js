@@ -330,7 +330,6 @@ angular.module('myApp.controllers', [])
       }, 2000)
     }
     $scope.$on("$ionicView.beforeEnter", function() {
-      showLoading.show()
       getInfo()
     })
 
@@ -467,15 +466,120 @@ angular.module('myApp.controllers', [])
 
 
   })
+  .controller('tab4Controller', function($scope, $stateParams, $state, showAlert, myHTTP, showLoading,$ionicPopup) {
+    $scope.refresh = function() {
+      getInfo()
+      setTimeout(function() {
+        $scope.$broadcast('scroll.refreshComplete');
+      }, 2000)
+    }
+    $scope.$on("$ionicView.beforeEnter", function() {
+      if (window.localStorage.userInfo) {
+        var data = JSON.parse(window.localStorage.userInfo)
+        showInfo(data)
+      }
+      getInfo()
+
+    })
+    function getInfo() {
+      // 更新用户信息
+      myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid, function(data) {
+        showInfo(data.data)
+        window.localStorage.userInfo = JSON.stringify(data.data)
+      }, function(data) {
+        showAlert(data.desc)
+      })
+    }
+    $scope.goSetting = function() {
+      $state.go("tab.setting")
+    }
+    $scope.goWithDrawCash=function(){
+      $state.go('tab.withdrawCash')
+    }
+
+    $scope.goto = function(title) {
+      if (title == "教务认证") {
+        $state.go("tab.bind");
+      }
+    }
+
+    $scope.goCoupon = function() {
+      $state.go("tab.coupon")
+    }
+    $scope.infoData = {
+        "imgurl": null,
+        "nickname": null,
+        "score": "",
+        "star": "",
+        "username": ""
+      }
+      //用户信息缓存处理
+
+
+
+    function showInfo(data) {
+      $scope.infoData = {
+        "imgurl": data.imgurl,
+        "nickname": data.nickname,
+        "score": data.score,
+        "star": data.pjscore
+      }
+      $scope.JWinfo =[{
+        name: "个人资料",
+        items: [{
+          "title": data.name
+        }, {
+          "title": data.sex
+        }, {
+          "title": data.username
+        }],
+        show: false
+      }]
+
+      if (data.isbind != 1) {
+        $scope.JWinfo[0].items.push({
+          "title": "教务认证"
+        })
+      }
+
+
+    }
+
+    $scope.logOn = function() {
+      var confirmPopup = $ionicPopup.confirm({
+        title: '注销',
+        template: '您确定要退出帐号吗?',
+        cancelText: '继续逛逛', // String (默认: 'Cancel')。一个取消按钮的文字。
+        okText: '退出帐号', // String (默认: 'OK')。OK按钮的文字。
+      });
+      confirmPopup.then(function(res) {
+        if (res) {
+          window.localStorage.clear();
+          // $ionicSideMenuDelegate.toggleLeft(false);
+          $state.go("logins.login");
+        }
+      });
+
+    }
+
+
+    $scope.toggleGroup = function(group) {
+      group.show = !group.show;
+    };
+    $scope.isGroupShown = function(group) {
+      return group.show;
+    };
+
+  })
   .controller('tabsController', function($scope, $stateParams, $state, showAlert, myHTTP, $ionicSideMenuDelegate, $ionicPopup) {
     $scope.goSetting = function() {
-      $state.go("setting")
+      $state.go("tab.setting")
     }
     $scope.goWithDrawCash=function(){
       $state.go('withdrawCash')
     }
-    $scope.globalUserInfo = globalUserInfo;
-    $scope.globalJWinfo = globalJWinfo;
+    // $scope.globalUserInfo = globalUserInfo;
+    // $scope.globalJWinfo = globalJWinfo;
     $scope.goto = function(title) {
       if (title == "教务认证") {
         $state.go("tab.bind");
@@ -566,7 +670,7 @@ angular.module('myApp.controllers', [])
       nickname: globalUserInfo.nickname,
     }
     $scope.goBack=function(){
-      $state.go("tab.tab1", {}, {
+      $state.go("tab.tab3", {}, {
         reload: true
       });
     }
