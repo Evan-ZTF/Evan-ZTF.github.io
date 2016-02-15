@@ -1,0 +1,31 @@
+<ion-header-bar align-title="center" class="bar-stable bar-header">
+  <button ng-click="$ionicGoBack()" class="button back-button buttons button-clear header-item"><i class="icon ion-ios-arrow-back"></i>
+      <span class="back-text"><span class="default-title hide">返回</span><span class="previous-title">订单</span></span></button>
+<div class="title title-center header-item">提现</div>
+</ion-header-bar>
+
+  <ion-content>
+    <form action="">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">支付宝账号</span>
+          <input type="text" placeholder="请输入标题" ng-model="info.username">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">提现金额</span>
+          <input type="text" placeholder="请输入标题" ng-model="info.money">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">可提现金额</span>
+          <div>{{info.mymoney}}</div>
+        </label>
+      <!-- <div style="color:gray;text-align:center;font-size:12px;margin-top:3px;">可提现金额:{{info.mymoney}}</div>
+      </div> -->
+
+      <div class="row">
+        <div class="col col-100">
+          <a class="button button-block button-positive" ng-click="sub()" >确认提现</a>
+        </div>
+      </div>
+    </form>
+  </ion-content>

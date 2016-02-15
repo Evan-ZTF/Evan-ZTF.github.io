@@ -195,10 +195,10 @@ angular.module('myApp.controllers', [])
       } else if (isNaN(Date.parse(info.finishtime))) {
         showAlert("时间必须大于当前时间且距离现在不超过一周");
         return false;
-      } else if (info.pay.length == 0 || (isNaN(info.pay))) {
+      } else if (info.pay.length == 0 || (isNaN(info.pay))||info.pay<=0) {
         showAlert("请输入佣金,佣金应该为大于0的数字");
         return false;
-      } else if (info.reward.length < 0 || (isNaN(info.reward))) {
+      } else if (info.reward.length < 0 || (isNaN(info.reward))||info.reward<=0) {
         showAlert("请输入赏金,赏金应该为大于等于0的数字");
         return false;
       } else {
@@ -269,10 +269,10 @@ angular.module('myApp.controllers', [])
       } else if (isNaN(Date.parse(info.finishtime))) {
         showAlert("时间必须大于当前时间且距离现在不超过一周");
         return false;
-      } else if (info.pay.length == 0 || (isNaN(info.pay))) {
+      } else if (info.pay.length == 0 || (isNaN(info.pay))||info.pay<=0) {
         showAlert("请输入佣金,佣金应该为大于0的数字");
         return false;
-      } else if (info.reward.length < 0 || (isNaN(info.reward))) {
+      } else if (info.reward.length < 0 || (isNaN(info.reward))||info.reward<=0) {
         showAlert("请输入赏金,赏金应该为大于等于0的数字");
         return false;
       } else {
@@ -349,16 +349,40 @@ angular.module('myApp.controllers', [])
 
 
   })
-  .controller('testController', function($scope) {
-    $scope.phone = 1
+  .controller('withdrawCashController', function($scope,myHTTP,showAlert,showLoading) {
+    var info={
+      username:"haha",
+      money:"12",
+      mymoney:"",
+    }
+    $scope.info=info;
+    $scope.$on("$ionicView.beforeEnter", function() {
+      showLoading.show(500);
+      myHTTP("http://115.29.114.161/papa/index.php?module=user&type=GetMyMoney&userid="+window.localStorage.userid,function(data){
+        var data=data.data
+        info.username=data.lastAccount
+        info.mymoney=data.money
+      },function(data){
+        showAlert(data.desc)
+      })
+    })
+
+
+
     $scope.sub = function() {
-      console.log($scope.phone)
-        // $scope.phone=2
-        // setTimeout(function(){
-        //   $scope.$apply(function(){
-        //     $scope.phone=3
-        //   })
-        // },2000)
+      showLoading.show()
+      myHTTP("http://"+config.host+"/papa/index.php?module=user&type=GetCash&userid="+window.localStorage.userid+"&account="+info.username+"&money="+info.money,function(data){
+        console.log(data)
+        showAlert(data.desc)
+        myHTTP("http://115.29.114.161/papa/index.php?module=user&type=GetMyMoney&userid="+window.localStorage.userid,function(data){
+          var data=data.data
+          info.mymoney=data.money
+        },function(data){
+          showAlert(data.desc)
+        })
+      },function(data){
+        showAlert(data.desc)
+      })
     }
   })
   .controller('tab3Controller', function($scope, showAlert, myHTTP, $state, $ionicSlideBoxDelegate, $ionicScrollDelegate, showLoading) {
@@ -429,23 +453,22 @@ angular.module('myApp.controllers', [])
         showAlert(data.desc)
       })
     }
-    $scope.refresh = function(test) {
+    $scope.refresh = function() {
       getInfo()
       setTimeout(function() {
         $scope.$broadcast('scroll.refreshComplete');
       }, 2000)
-      $
-
     }
 
 
   })
   .controller('tabsController', function($scope, $stateParams, $state, showAlert, myHTTP, $ionicSideMenuDelegate, $ionicPopup) {
     $scope.goSetting = function() {
-      console.log(111)
       $state.go("setting")
     }
-    console.log("tabs....")
+    $scope.goWithDrawCash=function(){
+      $state.go('withdrawCash')
+    }
     $scope.globalUserInfo = globalUserInfo;
     $scope.globalJWinfo = globalJWinfo;
     $scope.goto = function(title) {
@@ -528,7 +551,10 @@ angular.module('myApp.controllers', [])
       return group.show;
     };
   })
-  .controller('settingController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory) {
+  .controller('settingController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory,showLoading) {
+    $scope.$on("$ionicView.beforeEnter", function() {
+      showLoading.show(500)
+    })
     var jsonParseData = JSON.parse(window.localStorage.userInfo);
     $scope.info = {
       airplaneMode: true,
@@ -541,7 +567,9 @@ angular.module('myApp.controllers', [])
           console.log($scope.nickname.nickname)
           showAlert(data.desc);
           globalUserInfo = $scope.nickname;
-          $ionicHistory.goBack() //回到主界面
+          // $ionicHistory.goBack() //回到主界面
+          $state.go("tab.tab1");
+          // $ionicGoBack()
 
         })
       } else {
@@ -924,8 +952,9 @@ angular.module('myApp.controllers', [])
 
 
 .controller('payIndexController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory, showLoading, $http) {
-    // showLoading.show(500)
-    showLoading.show(500)
+    $scope.$on("$ionicView.beforeEnter", function() {
+      showLoading.show(500)
+    })
     console.log($stateParams.itemId, $stateParams.style)
     $scope.chooseType = "1"
     $scope.payment="wx"
@@ -985,41 +1014,9 @@ angular.module('myApp.controllers', [])
           showAlert("ping++错误")
         }
       }).error(function(){
-        showAlert("ajax错误")
+        showAlert("网络不好,请重试")
       })
-      // myHTTP("http://115.29.114.161/papaPay/example/pay.php?channel=alipay", function(data) {
-      //     console.log("支付")
-      //
-      //     console.log(data)
-      //     alert("准备发起支付")
-      //
-      //   })
-        // var obj={
-        //   "order_no":"14547495270078250079208741951819",
-        //   "amount":"200",
-        //   "app":"app_HCmTmTy9aLaHyPan",
-        //   "channel":"alipay",
-        //   "client_ip":"127.0.0.1",
-        //   "subject":"sdfdsf",
-        //   "body":"sdfsd"
-        // }
-        // $http({
-        //   url:"http://115.29.114.161/papaPay/example/pay.php",
-        //   method:"POST",
-        //   data:obj,
-        //   timeout:4000
-        // }).success(function(data){
-        //   console.log(data)
-        // }).error(function(error){
-        //   console.log(error)
-        // })
 
-      // myHTTP("http://" + config.host + "/papa/index.php?module=Item&type=payItem&userid=" + window.localStorage.userid + "&itemId=" + $stateParams.itemId + "&style=" + $stateParams.style, function(data) {
-      //   showAlert(data.desc)
-      //   $ionicHistory.goBack(-2) //回到主界面
-      // }, function(data) {
-      //   showAlert(data.desc)
-      // })
     }
   })
   .controller('loginController', function($scope, $stateParams, $state, showAlert, myHTTP, showLoading,showBottom) {
@@ -1045,8 +1042,6 @@ angular.module('myApp.controllers', [])
           window.localStorage.userid = data.data.userid;
           window.localStorage.authid = data.data.authid;
           window.localStorage.scretid = data.data.scretid;
-
-          // alert(localStorage.scretid)
           setTimeout(function(){
             $state.go("tab.tab1", {}, {
               reload: true
@@ -1054,7 +1049,7 @@ angular.module('myApp.controllers', [])
           },500)
         }, function(data) {
           showAlert(data.desc)
-        }, "")
+        })
       }
     }
   })

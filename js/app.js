@@ -1,14 +1,16 @@
 console.log("😂");
 var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
-myapp.run(function($ionicPlatform, $ionicPopup) {
+.run(function($ionicPlatform, $ionicPopup) {
 
   $ionicPlatform.ready(function() {
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
-      StatusBar.styleDefault();
-    }
+    // if (window.cordova && window.cordova.plugins.Keyboard) {
+    //   alert(666)
+    //   cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    // }
+    // if (window.StatusBar) {
+    //   alert(555)
+    //   StatusBar.styleDefault();
+    // }
     // //启动极光推送服务
     // function startPushServe(){
     //   // alert('开启推送开始')
@@ -25,7 +27,7 @@ myapp.run(function($ionicPlatform, $ionicPopup) {
   });
   // alertErr()
 })
-myapp.directive('onFinishRenderFilters', function($timeout) {
+.directive('onFinishRenderFilters', function($timeout) {
   return {
     restrict: 'A',
     link: function(scope, element, attr) {
@@ -36,8 +38,8 @@ myapp.directive('onFinishRenderFilters', function($timeout) {
       }
     }
   };
-});
-myapp.directive('hideTabs', function($rootScope) {
+})
+.directive('hideTabs', function($rootScope) {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
@@ -52,8 +54,8 @@ myapp.directive('hideTabs', function($rootScope) {
       });
     }
   };
-});
-myapp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+})
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   //   $ionicConfigProvider.views.maxCache(0);
   $ionicConfigProvider.platform.android.tabs.position('standard');
   $ionicConfigProvider.platform.android.navBar.alignTitle('center');
@@ -176,7 +178,11 @@ myapp.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) 
       url: '/setting',
       templateUrl: "templates/setting.html",
       controller: 'settingController'
-
+    })
+    .state('withdrawCash', {
+      url: '/withdrawCash',
+      templateUrl: "templates/withdrawCash.html",
+      controller: 'withdrawCashController'
     })
     .state('payIndex', {
       url: '/payIndex',
