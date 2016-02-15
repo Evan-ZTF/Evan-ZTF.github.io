@@ -15,7 +15,7 @@ angular.module('myApp.controllers', [])
       })
     }
 
-    getAD()
+    getAD();
     myHTTP("http://" + config.host + "/papa/index.php?module=app&type=appconfig", function(data) {
 
         var data = data.data;
@@ -82,7 +82,7 @@ angular.module('myApp.controllers', [])
     }
     $scope.$on("$ionicView.beforeEnter", function() {
       // showLoading.show()
-      getInfo()
+      getInfo();
     })
 
     function getInfo() {
@@ -349,16 +349,21 @@ angular.module('myApp.controllers', [])
 
 
   })
-  .controller('withdrawCashController', function($scope,myHTTP,showAlert,showLoading) {
+  .controller('withdrawCashController', function($scope,$state,myHTTP,showAlert,showLoading) {
     var info={
       username:"haha",
       money:"12",
       mymoney:"",
     }
+    $scope.goBack=function(){
+      $state.go("tab.tab1", {}, {
+        reload: true
+      });
+    }
     $scope.info=info;
     $scope.$on("$ionicView.beforeEnter", function() {
       showLoading.show(500);
-      myHTTP("http://115.29.114.161/papa/index.php?module=user&type=GetMyMoney&userid="+window.localStorage.userid,function(data){
+      myHTTP("http://"+config.host+"/papa/index.php?module=user&type=GetMyMoney&userid="+window.localStorage.userid,function(data){
         var data=data.data
         info.username=data.lastAccount
         info.mymoney=data.money
@@ -374,7 +379,7 @@ angular.module('myApp.controllers', [])
       myHTTP("http://"+config.host+"/papa/index.php?module=user&type=GetCash&userid="+window.localStorage.userid+"&account="+info.username+"&money="+info.money,function(data){
         console.log(data)
         showAlert(data.desc)
-        myHTTP("http://115.29.114.161/papa/index.php?module=user&type=GetMyMoney&userid="+window.localStorage.userid,function(data){
+        myHTTP("http://"+config.host+"/papa/index.php?module=user&type=GetMyMoney&userid="+window.localStorage.userid,function(data){
           var data=data.data
           info.mymoney=data.money
         },function(data){
@@ -560,6 +565,11 @@ angular.module('myApp.controllers', [])
       airplaneMode: true,
       nickname: globalUserInfo.nickname,
     }
+    $scope.goBack=function(){
+      $state.go("tab.tab1", {}, {
+        reload: true
+      });
+    }
     $scope.nickname = globalUserInfo
     $scope.sub = function() {
       if ($scope.nickname.nickname.length <= 12) {
@@ -568,7 +578,9 @@ angular.module('myApp.controllers', [])
           showAlert(data.desc);
           globalUserInfo = $scope.nickname;
           // $ionicHistory.goBack() //回到主界面
-          $state.go("tab.tab1");
+          $state.go("tab.tab1", {}, {
+            reload: true
+          });
           // $ionicGoBack()
 
         })
@@ -982,11 +994,8 @@ angular.module('myApp.controllers', [])
       console.log($stateParams.itemId)
       console.log($scope.payment)
       showLoading.show()
-      // myHTTP("http://115.29.114.161/papa/index.php?module=Item&type=getPayConfig&userid=" + window.localStorage.userid + "&itemId=" + $stateParams.itemId + "&style=" + $stateParams.style, function(data) {
-      //   // console.log(data)
-      // })
       $http({
-        url:"http://115.29.114.161/papa/index.php?module=Item&type=PayItem&userid="+window.localStorage.userid+"&itemId="+$stateParams.itemId+"&style="+$stateParams.style+"&&channel="+$scope.payment,
+        url:"http://"+config.host+"/papa/index.php?module=Item&type=PayItem&userid="+window.localStorage.userid+"&itemId="+$stateParams.itemId+"&style="+$stateParams.style+"&&channel="+$scope.payment,
         method:"GET",
         timeout:4000
       }).success(function(data){
