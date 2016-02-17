@@ -137,7 +137,8 @@ input[disabled] {
     margin: 0;
     padding: 0;
     left: 120px;
-    font-weight: 700; }
+    font-weight: 700;
+    font-size: 18px; }
 
 .sideBar .avatar {
   height: 80px;

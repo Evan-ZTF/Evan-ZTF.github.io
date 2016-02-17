@@ -1,6 +1,40 @@
-<ion-view view-title="优惠券"  class="bgGray" hide-tabs="true" >
+<ion-view view-title="优惠券" class="bgGray" hide-tabs="true">
   <ion-content>
-      <div class="coupon">
+
+
+
+    </div>
+
+    <div class="list card" ng-repeat="item in listdata">
+      <div class="item item-avatar" style="min-height:50px;padding-left:10px;">
+          <h2 style="padding-left:15px;">{{item.title}}  <span style="font-size:12px;position:absolute;right:10px;top:50%;transform:translateY(-50%)">{{item.tCode}}</span></h2>
+      </div>
+      <div class="item item-body">
+        <div class="row">
+          <div class="col col-30">
+        <img class="image" ng-src="{{item.src}}" style="height:120px;width:120px;">
+      </div>
+
+        <div class="col col-70">
+          <div style="font-size:14px;text-align:center;margin-top:10px;">商家:{{item.shopName}}</div>
+
+          <div style="font-size:12px;position:absolute;bottom:30px;">
+
+          有效期:  {{item.time}} {{item.timeText}}</div>
+        </div>
+
+      </div>
+      </div>
+      <!-- <div class="item tabs tabs-secondary tabs-icon-left"><a class="tab-item" href="#"><i class="icon ion-thumbsup"></i>
+      Like
+    </a><a class="tab-item" href="#"><i class="icon ion-chatbox"></i>
+      Comment
+    </a><a class="tab-item" href="#"><i class="icon ion-share"></i>
+      Share
+    </a></div> -->
+    </div>
+
+    <!-- <div class="coupon">
           <div class="row" ng-repeat="item in listdata" on-finish-render-filters>
           <div class="qr">
               券号: <span class="tCode">{{item.tCode}}</span>
@@ -13,9 +47,7 @@
           </div>
        </div>
 
-      </div>
-
-
+      </div> -->
 
   </ion-content>
 </ion-view>

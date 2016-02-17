@@ -1,12 +1,12 @@
 angular.module('myApp.controllers', [])
   .controller('tab1Controller', function($scope, $state, $ionicActionSheet, myHTTP, $ionicSlideBoxDelegate, showAlert, $ionicPopup, showLoading) {
-  //   (function(){
-  //     // jpushService.init()
-  //     $ionicPopup.alert({
-  //     title:'提示',
-  //     template:'启动推送服务成功'
-  //   });
-  // })()
+    //   (function(){
+    //     // jpushService.init()
+    //     $ionicPopup.alert({
+    //     title:'提示',
+    //     template:'启动推送服务成功'
+    //   });
+    // })()
     $scope.goDetail = function(itemId, style) {
       console.log(itemId, style)
       $state.go("tab.orderDetail", {
@@ -18,15 +18,15 @@ angular.module('myApp.controllers', [])
     getAD();
     myHTTP("http://" + config.host + "/papa/index.php?module=app&type=appconfig", function(data) {
 
-        var data = data.data;
-        console.log(data.version)
-          // if(data.version!=config.version){
-          //   showAlert("提示","发现新版本")
-          // }
-      })
-      if(!window.localStorage.userid){
-        $state.go("logins.login");
-      }
+      var data = data.data;
+      console.log(data.version)
+        // if(data.version!=config.version){
+        //   showAlert("提示","发现新版本")
+        // }
+    })
+    if (!window.localStorage.userid) {
+      $state.go("logins.login");
+    }
 
 
     $scope.refresh = function() {
@@ -158,9 +158,11 @@ angular.module('myApp.controllers', [])
         showAlert(data.desc)
       })
     }
-    getInfo()
+    $scope.$on("$ionicView.beforeEnter", function() {
+      // showLoading.show()
+      getInfo();
+    })
     $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-
       $('.row  .qr').each(function() {
         var that = $(this);
         var tCode = that.find('.tCode').text();
@@ -195,10 +197,10 @@ angular.module('myApp.controllers', [])
       } else if (isNaN(Date.parse(info.finishtime))) {
         showAlert("时间必须大于当前时间且距离现在不超过一周");
         return false;
-      } else if (info.pay.length == 0 || (isNaN(info.pay))||info.pay<=0) {
+      } else if (info.pay.length == 0 || (isNaN(info.pay)) || info.pay <= 0) {
         showAlert("请输入佣金,佣金应该为大于0的数字");
         return false;
-      } else if (info.reward.length < 0 || (isNaN(info.reward))||info.reward<=0) {
+      } else if (info.reward.length < 0 || (isNaN(info.reward)) || info.reward <= 0) {
         showAlert("请输入赏金,赏金应该为大于等于0的数字");
         return false;
       } else {
@@ -254,7 +256,7 @@ angular.module('myApp.controllers', [])
     }
 
   })
-  .controller('pubOtherController', function($scope, $stateParams, showAlert, myHTTP, $state, showLoading,$filter) {
+  .controller('pubOtherController', function($scope, $stateParams, showAlert, myHTTP, $state, showLoading, $filter) {
     function check(Func) {
       console.log(info.finishtime)
       if (info.title.length == 0) {
@@ -269,10 +271,10 @@ angular.module('myApp.controllers', [])
       } else if (isNaN(Date.parse(info.finishtime))) {
         showAlert("时间必须大于当前时间且距离现在不超过一周");
         return false;
-      } else if (info.pay.length == 0 || (isNaN(info.pay))||info.pay<=0) {
+      } else if (info.pay.length == 0 || (isNaN(info.pay)) || info.pay <= 0) {
         showAlert("请输入佣金,佣金应该为大于0的数字");
         return false;
-      } else if (info.reward.length < 0 || (isNaN(info.reward))||info.reward<=0) {
+      } else if (info.reward.length < 0 || (isNaN(info.reward)) || info.reward <= 0) {
         showAlert("请输入赏金,赏金应该为大于等于0的数字");
         return false;
       } else {
@@ -348,25 +350,25 @@ angular.module('myApp.controllers', [])
 
 
   })
-  .controller('withdrawCashController', function($scope,$state,myHTTP,showAlert,showLoading) {
-    var info={
-      username:"haha",
-      money:"12",
-      mymoney:"",
+  .controller('withdrawCashController', function($scope, $state, myHTTP, showAlert, showLoading) {
+    var info = {
+      username: "haha",
+      money: "12",
+      mymoney: "",
     }
-    $scope.goBack=function(){
+    $scope.goBack = function() {
       $state.go("tab.tab1", {}, {
         reload: true
       });
     }
-    $scope.info=info;
+    $scope.info = info;
     $scope.$on("$ionicView.beforeEnter", function() {
       showLoading.show(500);
-      myHTTP("http://"+config.host+"/papa/index.php?module=user&type=GetMyMoney&userid="+window.localStorage.userid,function(data){
-        var data=data.data
-        info.username=data.lastAccount
-        info.mymoney=data.money
-      },function(data){
+      myHTTP("http://" + config.host + "/papa/index.php?module=user&type=GetMyMoney&userid=" + window.localStorage.userid, function(data) {
+        var data = data.data
+        info.username = data.lastAccount
+        info.mymoney = data.money
+      }, function(data) {
         showAlert(data.desc)
       })
     })
@@ -375,16 +377,16 @@ angular.module('myApp.controllers', [])
 
     $scope.sub = function() {
       showLoading.show()
-      myHTTP("http://"+config.host+"/papa/index.php?module=user&type=GetCash&userid="+window.localStorage.userid+"&account="+info.username+"&money="+info.money,function(data){
+      myHTTP("http://" + config.host + "/papa/index.php?module=user&type=GetCash&userid=" + window.localStorage.userid + "&account=" + info.username + "&money=" + info.money, function(data) {
         console.log(data)
         showAlert(data.desc)
-        myHTTP("http://"+config.host+"/papa/index.php?module=user&type=GetMyMoney&userid="+window.localStorage.userid,function(data){
-          var data=data.data
-          info.mymoney=data.money
-        },function(data){
+        myHTTP("http://" + config.host + "/papa/index.php?module=user&type=GetMyMoney&userid=" + window.localStorage.userid, function(data) {
+          var data = data.data
+          info.mymoney = data.money
+        }, function(data) {
           showAlert(data.desc)
         })
-      },function(data){
+      }, function(data) {
         showAlert(data.desc)
       })
     }
@@ -402,26 +404,6 @@ angular.module('myApp.controllers', [])
     $scope.changeState = function(num) {
       $scope.state = num;
       console.log(num)
-        // switch (num) {
-        //   case 0:
-        //   myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=GetOrderList&userid=" + window.localStorage.userid, function(data) {
-        //     $scope.listData = data.data;
-        //     $ionicSlideBoxDelegate.update();
-        //   }, function(data) {
-        //     showAlert(data.desc);
-        //   })
-        //     break;
-        //     case 1:
-        //     myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=GetWorkList&userid=" + window.localStorage.userid, function(data) {
-        //       $scope.listData2 = data.data;
-        //       $ionicSlideBoxDelegate.update();
-        //     }, function(data) {
-        //       showAlert(data.desc)
-        //     })
-        //   default:
-      getInfo()
-
-      // }
     }
 
     $scope.goDetail3 = function(item) {
@@ -466,7 +448,7 @@ angular.module('myApp.controllers', [])
 
 
   })
-  .controller('tab4Controller', function($scope, $stateParams, $state, showAlert, myHTTP, showLoading,$ionicPopup) {
+  .controller('tab4Controller', function($scope, $stateParams, $state, showAlert, myHTTP, showLoading, $ionicPopup) {
     $scope.refresh = function() {
       getInfo()
       setTimeout(function() {
@@ -481,6 +463,7 @@ angular.module('myApp.controllers', [])
       getInfo()
 
     })
+
     function getInfo() {
       // 更新用户信息
       myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid, function(data) {
@@ -493,7 +476,7 @@ angular.module('myApp.controllers', [])
     $scope.goSetting = function() {
       $state.go("tab.setting")
     }
-    $scope.goWithDrawCash=function(){
+    $scope.goWithDrawCash = function() {
       $state.go('tab.withdrawCash')
     }
 
@@ -510,8 +493,8 @@ angular.module('myApp.controllers', [])
         "imgurl": null,
         "nickname": null,
         "score": "",
-        "star": "",
-        "username": ""
+        "username": "",
+        "pjscore":""
       }
       //用户信息缓存处理
 
@@ -522,9 +505,9 @@ angular.module('myApp.controllers', [])
         "imgurl": data.imgurl,
         "nickname": data.nickname,
         "score": data.score,
-        "star": data.pjscore
+        "pjscore":data.pjscore
       }
-      $scope.JWinfo =[{
+      $scope.JWinfo = [{
         name: "个人资料",
         items: [{
           "title": data.name
@@ -575,11 +558,11 @@ angular.module('myApp.controllers', [])
     $scope.goSetting = function() {
       $state.go("tab.setting")
     }
-    $scope.goWithDrawCash=function(){
-      $state.go('withdrawCash')
-    }
-    // $scope.globalUserInfo = globalUserInfo;
-    // $scope.globalJWinfo = globalJWinfo;
+    $scope.goWithDrawCash = function() {
+        $state.go('withdrawCash')
+      }
+      // $scope.globalUserInfo = globalUserInfo;
+      // $scope.globalJWinfo = globalJWinfo;
     $scope.goto = function(title) {
       if (title == "教务认证") {
         $state.go("tab.bind");
@@ -660,7 +643,7 @@ angular.module('myApp.controllers', [])
       return group.show;
     };
   })
-  .controller('settingController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory,showLoading) {
+  .controller('settingController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory, showLoading) {
     $scope.$on("$ionicView.beforeEnter", function() {
       showLoading.show(500)
     })
@@ -669,8 +652,8 @@ angular.module('myApp.controllers', [])
       airplaneMode: true,
       nickname: globalUserInfo.nickname,
     }
-    $scope.goBack=function(){
-      $state.go("tab.tab3", {}, {
+    $scope.goBack = function() {
+      $state.go("tab.tab4", {}, {
         reload: true
       });
     }
@@ -682,7 +665,7 @@ angular.module('myApp.controllers', [])
           showAlert(data.desc);
           globalUserInfo = $scope.nickname;
           // $ionicHistory.goBack() //回到主界面
-          $state.go("tab.tab1", {}, {
+          $state.go("tab.tab4", {}, {
             reload: true
           });
           // $ionicGoBack()
@@ -969,8 +952,8 @@ angular.module('myApp.controllers', [])
     $scope.pay = function(data) {
       console.log(data.itemId)
       $state.go('payIndex', {
-        "itemId":data.itemId,
-        "style":data.style
+        "itemId": data.itemId,
+        "style": data.style
       })
     }
     $scope.status = $stateParams.title
@@ -1073,25 +1056,25 @@ angular.module('myApp.controllers', [])
     })
     console.log($stateParams.itemId, $stateParams.style)
     $scope.chooseType = "1"
-    $scope.payment="wx"
+    $scope.payment = "wx"
     $scope.toggleType = function(index) {
       console.log(index)
       switch (index) {
         case 1:
           $scope.chooseType = "1"
           console.log("微信");
-          $scope.payment="wx"
+          $scope.payment = "wx"
           break;
         case 2:
           $scope.chooseType = "2"
           console.log("支付宝");
-          $scope.payment="alipay"
+          $scope.payment = "alipay"
           break;
       }
     }
-    $scope.channel=function(){
+    $scope.channel = function() {
       console.log(111)
-      // $ionicHistory.goBack(-2)
+        // $ionicHistory.goBack(-2)
       $state.go('tab.tab1')
     }
     $scope.sub = function() {
@@ -1099,12 +1082,12 @@ angular.module('myApp.controllers', [])
       console.log($scope.payment)
       showLoading.show()
       $http({
-        url:"http://"+config.host+"/papa/index.php?module=Item&type=PayItem&userid="+window.localStorage.userid+"&itemId="+$stateParams.itemId+"&style="+$stateParams.style+"&&channel="+$scope.payment,
-        method:"GET",
-        timeout:4000
-      }).success(function(data){
+        url: "http://" + config.host + "/papa/index.php?module=Item&type=PayItem&userid=" + window.localStorage.userid + "&itemId=" + $stateParams.itemId + "&style=" + $stateParams.style + "&&channel=" + $scope.payment,
+        method: "GET",
+        timeout: 4000
+      }).success(function(data) {
         alert("准备发起支付")
-        if(data.result!="success"){
+        if (data.result != "success") {
           showLoading.hide()
           showAlert(data.desc)
           return false;
@@ -1121,24 +1104,24 @@ angular.module('myApp.controllers', [])
             showLoading.hide()
             console.log(result)
             showAlert("支付失败")
-            // CommonJs.AlertPopup('err: ' + result); //"fail"|"cancel"|"invalid"
+              // CommonJs.AlertPopup('err: ' + result); //"fail"|"cancel"|"invalid"
           });
         } catch (e) {
           showAlert("ping++错误")
         }
-      }).error(function(){
+      }).error(function() {
         showAlert("网络不好,请重试")
       })
 
     }
   })
-  .controller('loginController', function($scope, $stateParams, $state, showAlert, myHTTP, showLoading,showBottom) {
-    if(window.localStorage.userid){
+  .controller('loginController', function($scope, $stateParams, $state, showAlert, myHTTP, showLoading, showBottom) {
+    if (window.localStorage.userid) {
       showLoading.show()
-      setTimeout(function(){
+      setTimeout(function() {
         $state.go("tab.tab1");
-      },500)
-     }
+      }, 500)
+    }
 
     $scope.phone = "11111111111"
     $scope.password = "111111"
@@ -1155,11 +1138,11 @@ angular.module('myApp.controllers', [])
           window.localStorage.userid = data.data.userid;
           window.localStorage.authid = data.data.authid;
           window.localStorage.scretid = data.data.scretid;
-          setTimeout(function(){
+          setTimeout(function() {
             $state.go("tab.tab1", {}, {
               reload: true
             });
-          },500)
+          }, 500)
         }, function(data) {
           showAlert(data.desc)
         })
