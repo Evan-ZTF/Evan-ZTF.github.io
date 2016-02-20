@@ -1,6 +1,6 @@
-<ion-view view-title="订单" ng-switch on="state">
+<ion-view view-title="订单" ng-switch on="state" >
 
-  <ion-content ng-switch-default lazy-scroll>
+  <ion-content ng-switch-default>
     <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh(state)">
     </ion-refresher>
     <ul class="segment">
@@ -9,20 +9,28 @@
     </ul>
 
     <ion-list>
-      <ion-item ng-repeat="item in listData" class="item item-thumbnail-left" ng-click="goDetail3(item)">
-        <img ng-src="{{item.imgurl}}">
-        <!-- <p>{{item.nickname}}</p> -->
-        <p>标题:{{item.title}}
-          <span style="float:right">{{item.status}}</span>
-        </p>
-        <p style="font-size:12px;">
-          佣金:<span style="color:#f40;">${{item.pay}}</span> 赏金:<span style="color:#f40;">${{item.reward}}</span>
-        </p>
-        <p style="font-size:12px;">
-          完成时间:{{item.finishtime}}
-        </p>
-        <p style="font-size:12px;">发布时间:{{item.createtime}}</p>
-      </ion-item>
+      <div class="card" ng-show="!listData[0]">
+        <div class="item item-text-wrap" >
+          空空如也~
+        </div>
+      </div>
+      <div class="list card" ng-repeat="item in listData" ng-click="goDetail3(item)" >
+        <div class="item item-avatar">
+          <img ng-src="{{item.imgurl}}">
+          <h2>{{item.title}} <span style="font-size:12px;color::gray;float:right;">当前状态:{{item.status}}</span> </h2>
+          <p>{{item.nickname}}</p>
+        </div>
+        <div class="item item-body">
+            <p style="font-size:14px;">
+              佣金:<span style="color:#f40;">${{item.pay}}</span> 赏金:<span style="color:#f40;">${{item.reward}}</span>
+            </p>
+            <p style="font-size:12px;">
+              完成时间:{{item.finishtime}}
+              <br>
+              发布时间:{{item.createtime}}
+            </p>
+        </div>
+      </div>
     </ion-list>
   </ion-content>
 
@@ -35,18 +43,29 @@
     </ul>
 
     <ion-list>
-      <ion-item ng-repeat="item in listData2" class="item item-thumbnail-left" ng-click="goDetail32(item)">
-        <img ng-src="{{item.imgurl}}">
-        <p>{{item.nickname}}
-        <span style="float:right;">{{item.status}}</span>
-        </p>
-        <span>标题:{{item.title}}</span>
-        <p style="font-size:12px;">
-          佣金: <span style="color:#f40;">{{item.pay}}</span> 赏金:<span style="color:#f40;">{{item.reward}}</span>
-        </p>
-        <p style="font-size:12px;">完成时间:{{item.finishtime}}</p>
-        <p style="font-size:12px;">接单时间:{{item.createtime}}</p>
-      </ion-item>
+      <div class="card" ng-show="!listData2[0]">
+        <div class="item item-text-wrap" >
+          空空如也~
+        </div>
+      </div>
+
+      <div class="list card" ng-repeat="item in listData2" ng-click="goDetail32(item)" >
+        <div class="item item-avatar">
+          <img ng-src="{{item.imgurl}}">
+          <h2>{{item.title}} <span style="font-size:12px;color::gray;float:right;">当前状态:{{item.status}}</span> </h2>
+          <p>{{item.nickname}}</p>
+        </div>
+        <div class="item item-body">
+            <p style="font-size:14px;">
+              佣金:<span style="color:#f40;">${{item.pay}}</span> 赏金:<span style="color:#f40;">${{item.reward}}</span>
+            </p>
+            <p style="font-size:12px;">
+              完成时间:{{item.finishtime}}
+              <br>
+              发布时间:{{item.createtime}}
+            </p>
+        </div>
+      </div>
     </ion-list>
-  </ion-contnet>
+    </ion-contnet>
 </ion-view>

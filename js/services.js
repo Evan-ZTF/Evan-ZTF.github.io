@@ -2,7 +2,7 @@ myapp.factory('myHTTP', function($http, showAlert, showLoading, showBottom) {
   return function(url, Func1, Func2, Func3, Func4) {
     if (typeof cordova != 'undefined') {
       if (checkConnection() == "没有网络连接") {
-        showBottom("没有网络连接")
+        myToast("没有网络连接")
         return false;
       }
     }
@@ -12,7 +12,7 @@ myapp.factory('myHTTP', function($http, showAlert, showLoading, showBottom) {
       timeout: 4000
     }).success(function(data) {
       if (typeof data !== "object") {
-        showBottom("出现异常")
+        myToast("出现异常")
         return false;
       }
       showLoading.hide()
@@ -36,7 +36,7 @@ myapp.factory('myHTTP', function($http, showAlert, showLoading, showBottom) {
         showLoading.hide()
         console.log("我成功啦~")
         if (typeof data !== "object") {
-          showBottom("出现异常")
+          myToast("出现异常")
           return false;
         }
         showLoading.hide()
@@ -56,7 +56,7 @@ myapp.factory('myHTTP', function($http, showAlert, showLoading, showBottom) {
           Func4()
         }
         if (errorTime == 0 || errorTime == 4) {
-          showBottom("网络不好,请重试")
+          myToast("网络不好,请重试")
         }
         if (errorTime == 4) {
           setTimeout(function() {

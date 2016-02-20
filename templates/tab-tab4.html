@@ -12,34 +12,31 @@
     <ion-list>
 
       <ion-list>
-        <div ng-repeat="group in globalJWinfo">
+        <div ng-repeat="group in JWinfo">
           <ion-item class="item item-icon-left item-icon-right" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}">
             <i class="icon ion-ios-person-outline"></i>{{group.name}}
             <i class="icon ion-ios-arrow-down"></i>
           </ion-item>
-          <ion-item class="item-accordion " ng-repeat="item in globalJWinfo[0].items" ng-show="isGroupShown(group)" ng-click="goto(item.title)">
+          <ion-item class="item-accordion " ng-repeat="item in JWinfo[0].items" ng-show="isGroupShown(group)" ng-click="goto(item.title)">
             {{item.title}}
           </ion-item>
         </div>
       </ion-list>
-      <ion-item>
-        <i class="icon ion-ios-cart-outline"></i> &nbsp;
-        <span>{{infoData.score}}分</span>
-      </ion-item>
+
       <ion-item menu-close ng-click="goWithDrawCash()">
-        <i class="icon ion-ios-cart-outline"></i> &nbsp;
+        <i class="icon ion-cash"></i> &nbsp;
         <span>提现</span>
       </ion-item>
       <ion-item>
-        <i class="icon ion-ios-cart-outline"></i> &nbsp;
+        <i class="icon ion-ios-star"></i> &nbsp;
         <span>好评度: {{infoData.pjscore}}</span>
       </ion-item>
       <ion-item  ng-click="goCoupon()" menu-close>
-        <i class="icon ion-ios-gear-outline"></i> &nbsp;
+        <i class="icon ion-ios-browsers-outline"></i> &nbsp;
         <span>我的优惠券</span>
       </ion-item>
       <ion-item  ng-click="logOn()">
-        <i class="icon ion-ios-gear-outline"></i> &nbsp;
+        <i class="icon ion-log-out"></i> &nbsp;
         <span>注销</span>
       </ion-item>
       <ion-item menu-close ng-click="goSetting()">

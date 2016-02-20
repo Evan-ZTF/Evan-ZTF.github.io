@@ -21,7 +21,7 @@ angular.module('myApp.controllers', [])
       var data = data.data;
       console.log(data.version)
         // if(data.version!=config.version){
-        //   showAlert("提示","发现新版本")
+        //   myToast("提示","发现新版本")
         // }
     })
     if (!window.localStorage.userid) {
@@ -77,7 +77,7 @@ angular.module('myApp.controllers', [])
           }
         })
       }, function(data) {
-        showAlert(data.desc);
+        myToast(data.desc);
       })
     }
     $scope.$on("$ionicView.beforeEnter", function() {
@@ -97,15 +97,24 @@ angular.module('myApp.controllers', [])
       });
     }
     $scope.publish = function() {
-      var authStatus = true;
-      globalJWinfo[0].items.map(function(value, key) {
-        console.log(value.title)
-        if (value.title == "教务认证") {
-          authStatus = false;
+      var authStatus = false;
+      if(window.localStorage.userInfo){
+        if (JSON.parse(window.localStorage.userInfo).isbind == "0") {
+          authStatus = true;
         }
-      })
+      }else{
+        myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid, function(data) {
+          window.localStorage.userInfo = JSON.stringify(data.data)
+          if (JSON.parse(window.localStorage.userInfo).isbind == "0") {
+            authStatus = true;
+          }
+        })
+
+      }
+
+
       console.log(authStatus)
-      if (!authStatus) {
+      if (authStatus) {
         var confirmPopup = $ionicPopup.confirm({
           title: '提示',
           template: '请先进行教务认证',
@@ -114,7 +123,8 @@ angular.module('myApp.controllers', [])
         });
         confirmPopup.then(function(res) {
           if (res) {
-            $state.go("tab.bind")
+            $state.go("tab.bind1")
+            // showAlert("请前往我->个人资料->教务认证 进行教务认证")
             return false;
           } else {
             return false;
@@ -155,7 +165,7 @@ angular.module('myApp.controllers', [])
         $scope.listdata = data.data
         console.log(data.data.length)
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       })
     }
     $scope.$on("$ionicView.beforeEnter", function() {
@@ -180,28 +190,28 @@ angular.module('myApp.controllers', [])
   .controller('pubExpressController', function($scope, $stateParams, showAlert, myHTTP, $state, showLoading) {
     function check(Func) {
       if (info.title.length == 0) {
-        showAlert("请输入标题");
+        myToast("请输入标题");
         return false;
       } else if (info.contacts.length == 0) {
-        showAlert("请输入联系人");
+        myToast("请输入联系人");
         return false;
       } else if (info.phone.length != 11) {
-        showAlert("请输入11位手机号码");
+        myToast("请输入11位手机号码");
         return false;
       } else if (info.adress.length == 0) {
-        showAlert("请输入地址");
+        myToast("请输入地址");
         return false;
       } else if (info.company.length == 0) {
-        showAlert("请输入快递公司名字");
+        myToast("请输入快递公司名字");
         return false;
       } else if (isNaN(Date.parse(info.finishtime))) {
-        showAlert("时间必须大于当前时间且距离现在不超过一周");
+        myToast("时间必须大于当前时间且距离现在不超过一周");
         return false;
       } else if (info.pay.length == 0 || (isNaN(info.pay)) || info.pay <= 0) {
-        showAlert("请输入佣金,佣金应该为大于0的数字");
+        myToast("请输入佣金,佣金应该为大于0的数字");
         return false;
-      } else if (info.reward.length < 0 || (isNaN(info.reward)) || info.reward <= 0) {
-        showAlert("请输入赏金,赏金应该为大于等于0的数字");
+      } else if (info.reward.length < 0 || (isNaN(info.reward)) || info.reward < 0) {
+        myToast("请输入赏金,赏金应该为大于等于0的数字");
         return false;
       } else {
         Func()
@@ -235,14 +245,15 @@ angular.module('myApp.controllers', [])
       showLoading.show()
       $scope.reback = false;
       myHTTP("http://" + config.host + "/papa/index.php?module=Item&type=PostItem&userid=" + window.localStorage.userid + "&contacts=" + info.contacts + "&phone=" + info.phone + "&title=" + info.title + "&pay=" + info.pay + "&reward=" + info.reward + "&remark=" + info.remark + "&company=" + info.company + "&address=" + info.adress + "&bagdetail=" + info.bagdetail + "&finishtime=" + formatDateTime(info.finishtime) + "&style=1", function(data) {
-        showAlert(data.desc)
-        $state.go('payIndex', {
+        myToast(data.desc)
+        $state.go('tab.payIndex1', {
           "itemId": data.data.itemId,
-          "style": data.data.style
+          "style": data.data.style,
+          'num':'1'
         })
         $scope.reback = true;
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       }, function() {
         $scope.reback = true;
       })
@@ -260,22 +271,22 @@ angular.module('myApp.controllers', [])
     function check(Func) {
       console.log(info.finishtime)
       if (info.title.length == 0) {
-        showAlert("请输入标题");
+        myToast("请输入标题");
         return false;
       } else if (info.contacts.length == 0) {
-        showAlert("请输入联系人");
+        myToast("请输入联系人");
         return false;
       } else if (info.phone.length != 11) {
-        showAlert("请输入11位手机号码");
+        myToast("请输入11位手机号码");
         return false;
       } else if (isNaN(Date.parse(info.finishtime))) {
-        showAlert("时间必须大于当前时间且距离现在不超过一周");
+        myToast("时间必须大于当前时间且距离现在不超过一周");
         return false;
       } else if (info.pay.length == 0 || (isNaN(info.pay)) || info.pay <= 0) {
-        showAlert("请输入佣金,佣金应该为大于0的数字");
+        myToast("请输入佣金,佣金应该为大于0的数字");
         return false;
-      } else if (info.reward.length < 0 || (isNaN(info.reward)) || info.reward <= 0) {
-        showAlert("请输入赏金,赏金应该为大于等于0的数字");
+      } else if (info.reward.length < 0 || (isNaN(info.reward)) || info.reward < 0) {
+        myToast("请输入赏金,赏金应该为大于等于0的数字");
         return false;
       } else {
         Func()
@@ -304,14 +315,15 @@ angular.module('myApp.controllers', [])
       showLoading.show()
       $scope.reback = false;
       myHTTP("http://" + config.host + "/papa/index.php?module=Item&type=PostItem&userid=" + window.localStorage.userid + "&contacts=" + info.contacts + "&phone=" + info.phone + "&title=" + info.title + "&pay=" + info.pay + "&reward=" + info.reward + "&remark=" + info.remark + "&finishtime=" + formatDateTime(info.finishtime) + "&style=0", function(data) {
-        showAlert(data.desc)
-        $state.go('payIndex', {
+        myToast(data.desc)
+        $state.go('tab.payIndex1', {
           "itemId": data.data.itemId,
-          "style": data.data.style
+          "style": data.data.style,
+          "num":'1'
         })
         $scope.reback = true;
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
           // $scope.reback = true;
       }, function(data) {
         $scope.reback = true;
@@ -339,7 +351,7 @@ angular.module('myApp.controllers', [])
       myHTTP("http://" + config.host + "/papa/index.php?module=Shop&type=GetShopList", function(data) {
         $scope.listdatas = data.data;
       }, function(data) {
-        showAlert(data.desc);
+        myToast(data.desc);
       })
     }
     $scope.goDetail2 = function(listdata) {
@@ -356,11 +368,7 @@ angular.module('myApp.controllers', [])
       money: "12",
       mymoney: "",
     }
-    $scope.goBack = function() {
-      $state.go("tab.tab1", {}, {
-        reload: true
-      });
-    }
+  
     $scope.info = info;
     $scope.$on("$ionicView.beforeEnter", function() {
       showLoading.show(500);
@@ -369,7 +377,7 @@ angular.module('myApp.controllers', [])
         info.username = data.lastAccount
         info.mymoney = data.money
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       })
     })
 
@@ -379,15 +387,15 @@ angular.module('myApp.controllers', [])
       showLoading.show()
       myHTTP("http://" + config.host + "/papa/index.php?module=user&type=GetCash&userid=" + window.localStorage.userid + "&account=" + info.username + "&money=" + info.money, function(data) {
         console.log(data)
-        showAlert(data.desc)
+        myToast(data.desc)
         myHTTP("http://" + config.host + "/papa/index.php?module=user&type=GetMyMoney&userid=" + window.localStorage.userid, function(data) {
           var data = data.data
           info.mymoney = data.money
         }, function(data) {
-          showAlert(data.desc)
+          myToast(data.desc)
         })
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       })
     }
   })
@@ -430,13 +438,13 @@ angular.module('myApp.controllers', [])
         $scope.listData = data.data;
         $ionicSlideBoxDelegate.update();
       }, function(data) {
-        showAlert(data.desc);
+        myToast(data.desc);
       })
       myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=GetWorkList&userid=" + window.localStorage.userid, function(data) {
         $scope.listData2 = data.data;
         $ionicSlideBoxDelegate.update();
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       })
     }
     $scope.refresh = function() {
@@ -455,6 +463,7 @@ angular.module('myApp.controllers', [])
         $scope.$broadcast('scroll.refreshComplete');
       }, 2000)
     }
+
     $scope.$on("$ionicView.beforeEnter", function() {
       if (window.localStorage.userInfo) {
         var data = JSON.parse(window.localStorage.userInfo)
@@ -470,7 +479,7 @@ angular.module('myApp.controllers', [])
         showInfo(data.data)
         window.localStorage.userInfo = JSON.stringify(data.data)
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       })
     }
     $scope.goSetting = function() {
@@ -496,7 +505,6 @@ angular.module('myApp.controllers', [])
         "username": "",
         "pjscore":""
       }
-      //用户信息缓存处理
 
 
 
@@ -507,20 +515,22 @@ angular.module('myApp.controllers', [])
         "score": data.score,
         "pjscore":data.pjscore
       }
-      $scope.JWinfo = [{
-        name: "个人资料",
-        items: [{
-          "title": data.name
-        }, {
-          "title": data.sex
-        }, {
-          "title": data.username
-        }],
-        show: false
-      }]
-
+      var JWinfo=[
+        {
+          name: "个人资料",
+          items: [{
+            "title": data.name
+          }, {
+            "title": data.sex
+          }, {
+            "title": data.username
+          }],
+          show: false
+        }
+      ]
+      $scope.JWinfo = JWinfo;
       if (data.isbind != 1) {
-        $scope.JWinfo[0].items.push({
+          JWinfo[0].items.push({
           "title": "教务认证"
         })
       }
@@ -537,7 +547,13 @@ angular.module('myApp.controllers', [])
       });
       confirmPopup.then(function(res) {
         if (res) {
-          window.localStorage.clear();
+          if(window.localStorage.startShowStatus){
+            var startShowStatus=window.localStorage.startShowStatus;
+            window.localStorage.clear();
+            window.localStorage.startShowStatus=startShowStatus;
+          }
+
+
           // $ionicSideMenuDelegate.toggleLeft(false);
           $state.go("logins.login");
         }
@@ -555,124 +571,52 @@ angular.module('myApp.controllers', [])
 
   })
   .controller('tabsController', function($scope, $stateParams, $state, showAlert, myHTTP, $ionicSideMenuDelegate, $ionicPopup) {
-    $scope.goSetting = function() {
-      $state.go("tab.setting")
-    }
-    $scope.goWithDrawCash = function() {
-        $state.go('withdrawCash')
-      }
-      // $scope.globalUserInfo = globalUserInfo;
-      // $scope.globalJWinfo = globalJWinfo;
-    $scope.goto = function(title) {
-      if (title == "教务认证") {
-        $state.go("tab.bind");
-      }
-    }
-    $scope.goCoupon = function() {
-      $state.go("tab.coupon")
-    }
-    $scope.infoData = {
-        "imgurl": null,
-        "nickname": null,
-        "score": "",
-        "star": "",
-        "username": ""
-      }
-      //用户信息缓存处理
-    if (window.localStorage.userInfo) {
-      var data = JSON.parse(window.localStorage.userInfo)
-      showInfo(data)
-    }
-    // 更新用户信息
-    myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid, function(data) {
-      showInfo(data.data)
-      window.localStorage.userInfo = JSON.stringify(data.data)
-    }, function(data) {
-      showAlert(data.desc)
-    })
+      // 获取用户信息
+      myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid, function(data) {
+        window.localStorage.userInfo = JSON.stringify(data.data)
+      })
 
-    function showInfo(data) {
-      $scope.infoData = {
-        "imgurl": data.imgurl,
-        "nickname": data.nickname,
-        "score": data.score,
-        "star": data.pjscore
-      }
-      $scope.globalUserInfo = globalUserInfo = data;
-      $scope.globalJWinfo = globalJWinfo = [{
-        name: "个人资料",
-        items: [{
-          "title": data.name
-        }, {
-          "title": data.sex
-        }, {
-          "title": data.username
-        }],
-        show: false
-      }]
-      if (data.isbind != 1) {
-        $scope.globalJWinfo[0].items.push({
-          "title": "教务认证"
-        })
-      }
-
+  })
+  .controller('startShowController', function($scope, $state) {
+    $scope.go=function(){
+      $state.go('logins.login')
     }
 
-    $scope.logOn = function() {
-      var confirmPopup = $ionicPopup.confirm({
-        title: '注销',
-        template: '您确定要退出帐号吗?',
-        cancelText: '继续逛逛', // String (默认: 'Cancel')。一个取消按钮的文字。
-        okText: '退出帐号', // String (默认: 'OK')。OK按钮的文字。
-      });
-      confirmPopup.then(function(res) {
-        if (res) {
-          window.localStorage.clear();
-          $ionicSideMenuDelegate.toggleLeft(false);
-          $state.go("logins.login");
-        }
-      });
-
-    }
-
-
-    $scope.toggleGroup = function(group) {
-      group.show = !group.show;
-    };
-    $scope.isGroupShown = function(group) {
-      return group.show;
-    };
   })
   .controller('settingController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory, showLoading) {
+    var jsonParseData ;
+    var info;
     $scope.$on("$ionicView.beforeEnter", function() {
-      showLoading.show(500)
+      jsonParseData = JSON.parse(window.localStorage.userInfo);
+      info = {
+        airplaneMode: true,
+        nickname: jsonParseData.nickname,
+      }
+      $scope.info=info;
     })
-    var jsonParseData = JSON.parse(window.localStorage.userInfo);
-    $scope.info = {
-      airplaneMode: true,
-      nickname: globalUserInfo.nickname,
-    }
+
+
+
     $scope.goBack = function() {
-      $state.go("tab.tab4", {}, {
-        reload: true
-      });
+      $ionicHistory.goBack()
     }
-    $scope.nickname = globalUserInfo
+
     $scope.sub = function() {
-      if ($scope.nickname.nickname.length <= 12) {
-        myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid + "&nickname=" + $scope.nickname.nickname, function(data) {
-          console.log($scope.nickname.nickname)
-          showAlert(data.desc);
-          globalUserInfo = $scope.nickname;
+      if(info.nickname.length==0){
+        myToast("昵称不能为空")
+      }
+      console.log(info.nickname.length)
+      if (info.nickname.length <= 12&&info.nickname.length!=0) {
+        myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid + "&nickname=" + info.nickname, function(data) {
+          console.log(info.nickname)
+          myToast(data.desc);
           // $ionicHistory.goBack() //回到主界面
-          $state.go("tab.tab4", {}, {
-            reload: true
-          });
+          $ionicHistory.goBack()
           // $ionicGoBack()
 
         })
       } else {
-        showAlert("昵称不能超过12个字")
+        myToast("昵称不能超过12个字")
       }
     }
   })
@@ -686,11 +630,11 @@ angular.module('myApp.controllers', [])
 
     function check(phone, psd1, psd2, code, Func) {
       if (phone.length != 11) {
-        showAlert("请输入11位手机号码")
+        myToast("请输入11位手机号码")
       } else if (psd1.length < 6 || psd1.length > 16) {
-        showAlert("请输入6~16位密码")
+        myToast("请输入6~16位密码")
       } else if (psd1 != psd2) {
-        showAlert("密码不一致,请重新输入")
+        myToast("密码不一致,请重新输入")
       } else {
         Func()
       }
@@ -710,10 +654,10 @@ angular.module('myApp.controllers', [])
               }
             })
           }, 1000)
-          showAlert(data.desc)
+          myToast(data.desc)
           codeid = data.data.codeid;
         }, function(data) {
-          showAlert(data.desc)
+          myToast(data.desc)
         })
 
       })
@@ -722,27 +666,33 @@ angular.module('myApp.controllers', [])
       check(phone, psd1, psd2, code, function() {
         // 注册接口
         if (code.length == 0 || code.length != 4) {
-          showAlert("请输入4位验证码")
+          myToast("请输入4位验证码")
           return false;
         }
         showLoading.show()
         myHTTP("http://" + config.host + "/papa/index.php?module=user&type=forget&username=" + phone + '&code=' + code + '&codeId=' + codeid + '&password=' + psd1, function(data) {
-          showAlert(data.desc)
+          myToast(data.desc)
           window.localStorage.userid = data.data.userid;
           window.localStorage.authid = data.data.authid;
           window.localStorage.scretid = data.data.scretid;
           $state.go("logins.login")
         }, function(data) {
-          showAlert(data.desc)
+          myToast(data.desc)
         })
       })
     }
   })
 
-.controller('bindController', function($scope, $stateParams, showAlert, myHTTP) {
+.controller('bindController', function($scope, $stateParams, showAlert, myHTTP,$state,$ionicHistory) {
     $scope.xuehao = ""
     $scope.password = ""
     $scope.code = ''
+    var info={
+      xuehao:"",
+      password:"",
+      code:""
+    }
+    $scope.info=info;
     var codeid = ""
     var clickState = 1;
     getImgData()
@@ -754,7 +704,7 @@ angular.module('myApp.controllers', [])
         codeid = data.data.codeid
         $scope.codeSrc = "data:image/png;base64," + data.data.imgData;
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       })
     }
 
@@ -762,44 +712,35 @@ angular.module('myApp.controllers', [])
     $scope.refreshImg = function() {
       getImgData()
     }
+
     $scope.sub = function(xuehao, password, code) {
-      function checkBind(result) {
-        myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid, function(data) {
-          var data = data.data;
-          //   globalJWinfo= [
-          //    {
-          //      name: "个人资料",
-          //      items: [{"title":data.name},{"title":data.sex},{"title":data.username}],
-          //      show: false
-          //    }
-          //  ]
-          console.log(result)
-          if (result == "success") {
-            if (data.isbind == 1) {
-              var arr = []
-              globalJWinfo[0].items.map(function(data, key) {
-                console.log(data)
-                if (data.title != "教务认证") {
-                  arr.push(data)
-                }
-              })
-              globalJWinfo[0].items = arr;
-            }
-          }
-        })
+      console.log(info.xuehao.length)
+      if(info.xuehao.length==0){
+        myToast("请输入学号")
+        return false;
       }
+      if(info.password.length==0){
+        myToast("请输入密码")
+        return false;
+      }
+      if(info.code.length==0){
+        myToast("请输入验证码")
+        return false;
+      }
+
       if (clickState == 1) {
         clickState = 0;
-        myHTTP("http://" + config.host + "/papa/index.php?module=user&type=bind&userid=" + window.localStorage.userid + "&authid=" + window.localStorage.authid + "&xh=" + xuehao + "&pw=" + password + "&code=" + code + "&codeid=" + codeid, function(data) {
+        myHTTP("http://" + config.host + "/papa/index.php?module=user&type=bind&userid=" + window.localStorage.userid + "&authid=" + window.localStorage.authid + "&xh=" + info.xuehao + "&pw=" + info.password + "&code=" + info.code + "&codeid=" + codeid, function(data) {
           clickState = 1;
-          showAlert(data.desc)
-          checkBind(data.result)
+          myToast(data.desc)
+          $ionicHistory.goBack()
+          // checkBind(data.result)
         }, function(data) {
           clickState = 1;
           console.log(data)
-          showAlert(data.desc)
+          myToast(data.desc)
           getImgData()
-          checkBind(data.result)
+          // checkBind(data.result)
         })
       }
     }
@@ -814,11 +755,11 @@ angular.module('myApp.controllers', [])
 
     function check(phone, psd1, psd2, code, Func) {
       if (phone.length != 11) {
-        showAlert("请输入11位手机号码")
+        myToast("请输入11位手机号码")
       } else if (psd1.length < 6 || psd1.length > 16) {
-        showAlert("请输入6~16位密码")
+        myToast("请输入6~16位密码")
       } else if (psd1 != psd2) {
-        showAlert("密码不一致,请重新输入")
+        myToast("密码不一致,请重新输入")
       } else {
         Func()
       }
@@ -837,10 +778,10 @@ angular.module('myApp.controllers', [])
               }
             })
           }, 1000)
-          showAlert(data.desc)
+          myToast(data.desc)
           codeid = data.data.codeid;
         }, function(data) {
-          showAlert(data.desc)
+          myToast(data.desc)
         })
 
       })
@@ -849,18 +790,18 @@ angular.module('myApp.controllers', [])
       check(phone, psd1, psd2, code, function() {
         // 注册接口
         if (code.length == 0 || code.length != 4) {
-          showAlert("请输入4位验证码")
+          myToast("请输入4位验证码")
           return false;
         }
         showLoading.show()
         myHTTP("http://" + config.host + "/papa/index.php?module=user&type=register&username=" + phone + '&code=' + code + '&codeId=' + codeid + '&password=' + psd1, function(data) {
-          showAlert(data.desc)
+          myToast(data.desc)
           window.localStorage.userid = data.data.userid;
           window.localStorage.authid = data.data.authid;
           window.localStorage.scretid = data.data.scretid;
           $state.go("logins.login")
         }, function(data) {
-          showAlert(data.desc)
+          myToast(data.desc)
         })
       })
     }
@@ -870,20 +811,20 @@ angular.module('myApp.controllers', [])
     $scope.rush = function(item) {
       // itemId,shopId,style
       myHTTP("http://" + config.host + "/papa/index.php?module=Item&type=RushTicket&userId=" + window.localStorage.userid + "&itemId=" + item.itemId + "&shopId=" + item.shopId + "&style=" + item.style, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       }, function() {
         $state.go('tab.tab1')
       })
     }
     $scope.order = function(item) {
       myHTTP("http://" + config.host + "/papa/index.php?module=Item&type=RushOrder&userId=" + window.localStorage.userid + "&itemId=" + item.itemId + "&style=" + item.style + "&rushtoken=" + item.rushtoken, function(data) {
-        showAlert(data.desc);
+        myToast(data.desc);
         $state.go("tab.tab1")
       }, function(data) {
         $state.go("tab.tab1")
-        showAlert(data.desc);
+        myToast(data.desc);
       })
     }
     $scope.$on("$ionicView.beforeEnter", function() {
@@ -951,9 +892,10 @@ angular.module('myApp.controllers', [])
     })
     $scope.pay = function(data) {
       console.log(data.itemId)
-      $state.go('payIndex', {
+      $state.go('tab.payIndex3', {
         "itemId": data.itemId,
-        "style": data.style
+        "style": data.style,
+        'num':'3'
       })
     }
     $scope.status = $stateParams.title
@@ -961,19 +903,19 @@ angular.module('myApp.controllers', [])
     $scope.confirm = function(data) {
       console.log("confirm")
       myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=FinishOrder&userid=" + window.localStorage.userid + "&itemId=" + data.itemId + "&style=" + data.style, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
         $state.go('tab.tab3')
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       })
     }
     $scope.cancel = function(data) {
       console.log("cancel")
       myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=CancelOrder&userid=" + window.localStorage.userid + "&itemId=" + data.itemId + "&style=" + data.style, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
         $state.go('tab.tab3')
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       })
       console.log(data)
     }
@@ -984,7 +926,7 @@ angular.module('myApp.controllers', [])
         $scope.data = data;
         console.log(data)
       }, function(data) {
-        showAlert(data.desc)
+        myToast(data.desc)
       })
     }
 
@@ -1017,19 +959,19 @@ angular.module('myApp.controllers', [])
   $scope.confirm = function(data) {
     console.log("confirm")
     myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=FinishOrder&userid=" + window.localStorage.userid + "&itemId=" + data.itemId + "&style=" + data.style, function(data) {
-      showAlert(data.desc)
+      myToast(data.desc)
       $state.go('tab.tab3')
     }, function(data) {
-      showAlert(data.desc)
+      myToast(data.desc)
     })
   }
   $scope.cancel = function(data) {
     console.log("cancel")
     myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=CancelOrder&userid=" + window.localStorage.userid + "&itemId=" + data.itemId + "&style=" + data.style, function(data) {
-      showAlert(data.desc)
+      myToast(data.desc)
       $state.go('tab.tab3')
     }, function(data) {
-      showAlert(data.desc)
+      myToast(data.desc)
     })
     console.log(data)
   }
@@ -1040,7 +982,7 @@ angular.module('myApp.controllers', [])
       $scope.data = data;
       console.log(data)
     }, function(data) {
-      showAlert(data.desc)
+      myToast(data.desc)
     })
   }
 
@@ -1054,7 +996,9 @@ angular.module('myApp.controllers', [])
     $scope.$on("$ionicView.beforeEnter", function() {
       showLoading.show(500)
     })
-    console.log($stateParams.itemId, $stateParams.style)
+
+    console.log($stateParams.itemId, $stateParams.style,$stateParams.num)
+    alert($stateParams.num)
     $scope.chooseType = "1"
     $scope.payment = "wx"
     $scope.toggleType = function(index) {
@@ -1074,13 +1018,25 @@ angular.module('myApp.controllers', [])
     }
     $scope.channel = function() {
       console.log(111)
+      alert($stateParams.num)
         // $ionicHistory.goBack(-2)
-      $state.go('tab.tab1')
+        switch ($stateParams.num) {
+          case '1':
+            $state.go('tab.tab1')
+            break;
+          case '3':
+          $state.go('tab.tab3')
+          default:
+          $state.go('tab.tab3')
+
+        }
+
     }
     $scope.sub = function() {
       console.log($stateParams.itemId)
       console.log($scope.payment)
       showLoading.show()
+
       $http({
         url: "http://" + config.host + "/papa/index.php?module=Item&type=PayItem&userid=" + window.localStorage.userid + "&itemId=" + $stateParams.itemId + "&style=" + $stateParams.style + "&&channel=" + $scope.payment,
         method: "GET",
@@ -1089,28 +1045,31 @@ angular.module('myApp.controllers', [])
         alert("准备发起支付")
         if (data.result != "success") {
           showLoading.hide()
-          showAlert(data.desc)
+          myToast(data.desc)
           return false;
         }
         try {
           pingpp.createPayment(data.data, function(result) {
             showLoading.hide()
-            showAlert("支付成功")
-            $state.go('tab.tab1')
+            myToast("支付成功")
+            $ionicHistory.nextViewOptions({
+          disableBack: true
+        });
+            $scope.channel()
             console.log(result)
 
             // CommonJs.AlertPopup('suc: ' + result); //"success"
           }, function(result) {
             showLoading.hide()
             console.log(result)
-            showAlert("支付失败")
+            myToast("支付失败")
               // CommonJs.AlertPopup('err: ' + result); //"fail"|"cancel"|"invalid"
           });
         } catch (e) {
-          showAlert("ping++错误")
+          myToast("ping++错误")
         }
       }).error(function() {
-        showAlert("网络不好,请重试")
+        myToast("网络不好,请重试")
       })
 
     }
@@ -1122,29 +1081,27 @@ angular.module('myApp.controllers', [])
         $state.go("tab.tab1");
       }, 500)
     }
-
+    window.localStorage.startShowStatus=true;
     $scope.phone = "11111111111"
     $scope.password = "111111"
 
     $scope.login = function(phone, password) {
       if (phone.length != 11) {
-        showAlert("请输入11位手机号码")
+        myToast("请输入11位手机号码")
       } else if (password.length < 6 || password.length > 16) {
-        showAlert("请输入6~16位密码")
+        myToast("请输入6~16位密码")
       } else {
         myHTTP("http://" + config.host + "/papa/index.php?module=user&type=login&username=" + phone + '&password=' + password, function(data) {
-          // showAlert("提示",data.desc)
+          // myToast("提示",data.desc)
           showLoading.show()
           window.localStorage.userid = data.data.userid;
           window.localStorage.authid = data.data.authid;
           window.localStorage.scretid = data.data.scretid;
           setTimeout(function() {
-            $state.go("tab.tab1", {}, {
-              reload: true
-            });
+            $state.go("tab.tab1");
           }, 500)
         }, function(data) {
-          showAlert(data.desc)
+          myToast(data.desc)
         })
       }
     }

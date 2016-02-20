@@ -3,10 +3,10 @@
     <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh()">
     </ion-refresher>
 
-     <ion-slide-box delegate-handle="slideimgs" auto-play="true" style="height:40vw" does-continue="true">
+    <ion-slide-box delegate-handle="slideimgs" auto-play="true" style="height:40vw" does-continue="true">
       <ion-slide ng-repeat="item in imgList">
         <div class="box">
-            <img ng-src="{{item.imgurl}}" style="height:40vw" >
+          <img ng-src="{{item.imgurl}}" style="height:40vw">
         </div>
       </ion-slide>
     </ion-slide-box>
@@ -27,6 +27,13 @@
     </div>
 
     <ion-list>
+
+      <div class="card" ng-show="!listdatas[0]">
+        <div class="item item-text-wrap" >
+          暂时没有可以接的单喔~
+        </div>
+      </div>
+
       <ion-item ng-repeat="listdata in listdatas" class="item item-thumbnail-left" ng-click="goDetail(listdata.itemId,listdata.style)">
         <img ng-src="{{listdata.imgurl}}" style="border-radius:50%;">
         <h2>{{listdata.name}}</h2>

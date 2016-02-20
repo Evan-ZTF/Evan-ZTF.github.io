@@ -3,18 +3,14 @@
      <ion-refresher pulling-text="下拉刷新..." on-refresh="refresh()">
     </ion-refresher>
 <div class="orderDetail2">
+
+  <div class="list card">
+    <div class="item item-avatar" style="height:60px;min-height:60px;"><p style="font-size:20px;color:gray;transform:translateX(-50px);line-height:30px;margin:0;height:60px;">{{info.shopName}}</p></div><div class="item item-body">
+      {{info.address}}   {{info.phone}}
+    </div>
+  </div>
+
     <ion-list>
-        <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);margin-top:3px;">
-           <div>{{info.shopName}}</div>
-           
-        </div>
-         <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);margin-top:3px;">
-           <div>{{info.phone}}</div>
-        </div>
-         <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);margin-top:3px;">
-           <div>{{info.address}}</div>
-        </div>
-        
          <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);text-align:center;font-weight:700;margin-top:5px;" ng-show="listdatas[0]">
             菜品介绍
         </div>
@@ -25,9 +21,9 @@
         <span style="font-size:12px;">{{listdata.text}}</span>
       </ion-item>
     </ion-list>
-   
 
-    <div style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);text-align:center;font-weight:700;margin-top:5px;">
+
+    <div ng-show="artDatas[1]" style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);text-align:center;font-weight:700;margin-top:5px;">
            优惠券
     </div>
     <div class="row coupon"  ng-repeat="artData in artDatas">
@@ -42,7 +38,7 @@
          </div>
      </div>
 </div>
-       
-       
+
+
   </ion-content>
 </ion-view>

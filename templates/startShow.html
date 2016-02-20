@@ -1,0 +1,33 @@
+  <ion-content>
+  <style>
+    .blue{
+      background: blue;
+    }
+    .yellow{
+      background: yellow;
+    }
+    .pink{
+      background: pink;
+    }
+    .box{
+    height:100vh;width:100%;
+    }
+  </style>
+    <ion-slide-box >
+  <ion-slide>
+    <div class="box blue"><h1>BLUE</h1></div>
+  </ion-slide>
+  <ion-slide>
+    <div class="box yellow"><h1>YELLOW</h1></div>
+  </ion-slide>
+  <ion-slide>
+    <div class="box pink">
+      <div class="row">
+        <div class="col col-100">
+          <a class="button button-block button-positive" ng-click="go()">go!</a>
+        </div>
+      </div>
+    </div>
+  </ion-slide>
+</ion-slide-box>
+  </ion-content>

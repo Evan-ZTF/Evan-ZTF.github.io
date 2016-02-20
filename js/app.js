@@ -136,6 +136,15 @@ var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
         }
       }
     })
+    .state('tab.bind1', {
+      url: '/bind1',
+      views: {
+        'tab-tab1': {
+          templateUrl: "templates/bind.html",
+          controller: 'bindController'
+        }
+      }
+    })
     .state('tab.bind', {
       url: '/bind',
       views: {
@@ -193,15 +202,35 @@ var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
         }
       }
     })
-    .state('payIndex', {
-      url: '/payIndex',
+    .state('tab.payIndex1', {
+      url: '/payIndex1',
       params: {
         "itemId": null,
-        "style": null
+        "style":null,
+        "num":null
       },
-      templateUrl: "templates/payIndex.html",
-      controller: 'payIndexController'
+      views: {
+        'tab-tab1': {
+          templateUrl: "templates/payIndex.html",
+          controller: 'payIndexController'
+        }
+      }
     })
+    .state('tab.payIndex3', {
+      url: '/payIndex3',
+      params: {
+        "itemId": null,
+        "style":null,
+        "num":null
+      },
+      views: {
+        'tab-tab3': {
+          templateUrl: "templates/payIndex.html",
+          controller: 'payIndexController'
+        }
+      }
+    })
+
     .state('tab.coupon', {
       url: '/coupon',
       views: {
@@ -293,7 +322,17 @@ var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
         }
       }
     })
+    .state('startShow', {
+      url: '/startShow',
+      templateUrl: "templates/startShow.html",
+      controller: 'startShowController'
+    })
 
-  $urlRouterProvider.otherwise('/logins/login');
+
+  if(window.localStorage.startShowStatus){
+    $urlRouterProvider.otherwise('/logins/login');
+  }else{
+    $urlRouterProvider.otherwise('/startShow');
+  }
 
 });
