@@ -368,7 +368,7 @@ angular.module('myApp.controllers', [])
       money: "12",
       mymoney: "",
     }
-  
+
     $scope.info = info;
     $scope.$on("$ionicView.beforeEnter", function() {
       showLoading.show(500);
@@ -1018,8 +1018,6 @@ angular.module('myApp.controllers', [])
     }
     $scope.channel = function() {
       console.log(111)
-      alert($stateParams.num)
-        // $ionicHistory.goBack(-2)
         switch ($stateParams.num) {
           case '1':
             $state.go('tab.tab1')
