@@ -332,7 +332,7 @@ var myapp = angular.module('myApp', ['ionic', 'myApp.controllers'])
   if(window.localStorage.startShowStatus){
     $urlRouterProvider.otherwise('/logins/login');
   }else{
-    $urlRouterProvider.otherwise('/startShow');
+    $urlRouterProvider.otherwise('/startShow'); //功能展示轮播
   }
 
 });

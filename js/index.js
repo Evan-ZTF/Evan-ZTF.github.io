@@ -14,6 +14,9 @@ var app = {
     if (window.StatusBar) {
       StatusBar.styleDefault();
     }
+    // setTimeout(function(){
+    //   cordova.InAppBrowser.open('https://www.baidu.com', '_blank', 'location=no');
+    // },3000)
   },
   receivedEvent: function(id) {
 

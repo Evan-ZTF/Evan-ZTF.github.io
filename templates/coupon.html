@@ -3,12 +3,12 @@
 
 
 
-    <div class="card" ng-show="!listdata[1]">
+    <div class="card" ng-show="!listdata[0]" ng-cloak>
       <div class="item item-text-wrap" >
         空空如也~
       </div>
     </div>
-    
+
     <div class="list card" ng-repeat="item in listdata">
       <div class="item item-avatar" style="min-height:50px;padding-left:10px;">
           <h2 style="padding-left:15px;">{{item.title}}  <span style="font-size:12px;position:absolute;right:10px;top:50%;transform:translateY(-50%)">{{item.tCode}}</span></h2>

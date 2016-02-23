@@ -4,7 +4,7 @@
     </ion-refresher>
 
     <ion-list>
-      <div class="card" ng-show="!listdatas[1]">
+      <div class="card" ng-show="!listdatas[0]" ng-cloak style="width:210px;text-align:center;position:absolute;top:50px;left:50%;margin: 0;transform:translateX(-50%);-webkit-transform:translateX(-50%)">
         <div class="item item-text-wrap" >
           暂时没有商家优惠喔~
         </div>
@@ -15,5 +15,9 @@
         <h2>{{listdata.shopName}}</h2>
       </ion-item>
     </ion-list>
+
+    <div class="tab2c">
+
+    </div>
   </ion-content>
 </ion-view>

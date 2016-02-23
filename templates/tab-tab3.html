@@ -9,9 +9,9 @@
     </ul>
 
     <ion-list>
-      <div class="card" ng-show="!listData[0]">
-        <div class="item item-text-wrap" >
-          空空如也~
+      <div class="card" ng-show="!listData[0]" style="width:210px;text-align:center;position:absolute;top:50px;left:50%;margin: 0;transform:translateX(-50%);">
+        <div class="item item-text-wrap" ng-show="!listData[10]" >
+          空空如也~1
         </div>
       </div>
       <div class="list card" ng-repeat="item in listData" ng-click="goDetail3(item)" >
@@ -22,7 +22,7 @@
         </div>
         <div class="item item-body">
             <p style="font-size:14px;">
-              佣金:<span style="color:#f40;">${{item.pay}}</span> 赏金:<span style="color:#f40;">${{item.reward}}</span>
+              佣金:<span style="color:#f40;">￥{{item.pay}}</span> 赏金:<span style="color:#f40;">￥{{item.reward}}</span>
             </p>
             <p style="font-size:12px;">
               完成时间:{{item.finishtime}}
@@ -43,7 +43,7 @@
     </ul>
 
     <ion-list>
-      <div class="card" ng-show="!listData2[0]">
+      <div class="card" ng-show="!listData2[0]"  style="width:210px;text-align:center;position:absolute;top:50px;left:50%;margin: 0;transform:translateX(-50%);-webkit-transform:translateX(-50%)">
         <div class="item item-text-wrap" >
           空空如也~
         </div>
@@ -57,7 +57,7 @@
         </div>
         <div class="item item-body">
             <p style="font-size:14px;">
-              佣金:<span style="color:#f40;">${{item.pay}}</span> 赏金:<span style="color:#f40;">${{item.reward}}</span>
+              佣金:<span style="color:#f40;">￥{{item.pay}}</span> 赏金:<span style="color:#f40;">￥{{item.reward}}</span>
             </p>
             <p style="font-size:12px;">
               完成时间:{{item.finishtime}}

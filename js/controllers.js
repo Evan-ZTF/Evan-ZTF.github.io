@@ -98,11 +98,11 @@ angular.module('myApp.controllers', [])
     }
     $scope.publish = function() {
       var authStatus = false;
-      if(window.localStorage.userInfo){
+      if (window.localStorage.userInfo) {
         if (JSON.parse(window.localStorage.userInfo).isbind == "0") {
           authStatus = true;
         }
-      }else{
+      } else {
         myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid, function(data) {
           window.localStorage.userInfo = JSON.stringify(data.data)
           if (JSON.parse(window.localStorage.userInfo).isbind == "0") {
@@ -124,7 +124,7 @@ angular.module('myApp.controllers', [])
         confirmPopup.then(function(res) {
           if (res) {
             $state.go("tab.bind1")
-            // showAlert("请前往我->个人资料->教务认证 进行教务认证")
+              // showAlert("请前往我->个人资料->教务认证 进行教务认证")
             return false;
           } else {
             return false;
@@ -249,7 +249,7 @@ angular.module('myApp.controllers', [])
         $state.go('tab.payIndex1', {
           "itemId": data.data.itemId,
           "style": data.data.style,
-          'num':'1'
+          'num': '1'
         })
         $scope.reback = true;
       }, function(data) {
@@ -319,7 +319,7 @@ angular.module('myApp.controllers', [])
         $state.go('tab.payIndex1', {
           "itemId": data.data.itemId,
           "style": data.data.style,
-          "num":'1'
+          "num": '1'
         })
         $scope.reback = true;
       }, function(data) {
@@ -346,7 +346,17 @@ angular.module('myApp.controllers', [])
     $scope.$on("$ionicView.beforeEnter", function() {
       getInfo()
     })
+    setTimeout(function(){
+      var sizes = [
+    { columns: 2, gutter: 10 },
+    { mq: '768px', columns: 3, gutter: 25 },
+    { mq: '1024px', columns: 4, gutter: 50 }
+  ]
 
+  var instance = Bricks({
+    sizes: sizes
+  })
+    },3000)
     function getInfo() {
       myHTTP("http://" + config.host + "/papa/index.php?module=Shop&type=GetShopList", function(data) {
         $scope.listdatas = data.data;
@@ -401,8 +411,8 @@ angular.module('myApp.controllers', [])
   })
   .controller('tab3Controller', function($scope, showAlert, myHTTP, $state, $ionicSlideBoxDelegate, $ionicScrollDelegate, showLoading) {
     $scope.state = 0; //tab切换
-    $scope.listData = []
-    $scope.listData2 = []
+    $scope.listData = ""
+    $scope.listData2 = ""
 
     $scope.slideHasChange = function(index) {
       $scope.state = index;
@@ -436,13 +446,11 @@ angular.module('myApp.controllers', [])
     function getInfo() {
       myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=GetOrderList&userid=" + window.localStorage.userid, function(data) {
         $scope.listData = data.data;
-        $ionicSlideBoxDelegate.update();
       }, function(data) {
         myToast(data.desc);
       })
       myHTTP("http://" + config.host + "/papa/index.php?module=Order&type=GetWorkList&userid=" + window.localStorage.userid, function(data) {
         $scope.listData2 = data.data;
-        $ionicSlideBoxDelegate.update();
       }, function(data) {
         myToast(data.desc)
       })
@@ -499,12 +507,12 @@ angular.module('myApp.controllers', [])
       $state.go("tab.coupon")
     }
     $scope.infoData = {
-        "imgurl": null,
-        "nickname": null,
-        "score": "",
-        "username": "",
-        "pjscore":""
-      }
+      "imgurl": null,
+      "nickname": null,
+      "score": "",
+      "username": "",
+      "pjscore": ""
+    }
 
 
 
@@ -513,24 +521,22 @@ angular.module('myApp.controllers', [])
         "imgurl": data.imgurl,
         "nickname": data.nickname,
         "score": data.score,
-        "pjscore":data.pjscore
+        "pjscore": data.pjscore
       }
-      var JWinfo=[
-        {
-          name: "个人资料",
-          items: [{
-            "title": data.name
-          }, {
-            "title": data.sex
-          }, {
-            "title": data.username
-          }],
-          show: false
-        }
-      ]
+      var JWinfo = [{
+        name: "个人资料",
+        items: [{
+          "title": data.name
+        }, {
+          "title": data.sex
+        }, {
+          "title": data.username
+        }],
+        show: false
+      }]
       $scope.JWinfo = JWinfo;
       if (data.isbind != 1) {
-          JWinfo[0].items.push({
+        JWinfo[0].items.push({
           "title": "教务认证"
         })
       }
@@ -547,10 +553,10 @@ angular.module('myApp.controllers', [])
       });
       confirmPopup.then(function(res) {
         if (res) {
-          if(window.localStorage.startShowStatus){
-            var startShowStatus=window.localStorage.startShowStatus;
+          if (window.localStorage.startShowStatus) {
+            var startShowStatus = window.localStorage.startShowStatus;
             window.localStorage.clear();
-            window.localStorage.startShowStatus=startShowStatus;
+            window.localStorage.startShowStatus = startShowStatus;
           }
 
 
@@ -571,20 +577,20 @@ angular.module('myApp.controllers', [])
 
   })
   .controller('tabsController', function($scope, $stateParams, $state, showAlert, myHTTP, $ionicSideMenuDelegate, $ionicPopup) {
-      // 获取用户信息
-      myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid, function(data) {
-        window.localStorage.userInfo = JSON.stringify(data.data)
-      })
+    // 获取用户信息
+    myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid, function(data) {
+      window.localStorage.userInfo = JSON.stringify(data.data)
+    })
 
   })
   .controller('startShowController', function($scope, $state) {
-    $scope.go=function(){
+    $scope.go = function() {
       $state.go('logins.login')
     }
 
   })
   .controller('settingController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory, showLoading) {
-    var jsonParseData ;
+    var jsonParseData;
     var info;
     $scope.$on("$ionicView.beforeEnter", function() {
       jsonParseData = JSON.parse(window.localStorage.userInfo);
@@ -592,7 +598,7 @@ angular.module('myApp.controllers', [])
         airplaneMode: true,
         nickname: jsonParseData.nickname,
       }
-      $scope.info=info;
+      $scope.info = info;
     })
 
 
@@ -602,17 +608,17 @@ angular.module('myApp.controllers', [])
     }
 
     $scope.sub = function() {
-      if(info.nickname.length==0){
+      if (info.nickname.length == 0) {
         myToast("昵称不能为空")
       }
       console.log(info.nickname.length)
-      if (info.nickname.length <= 12&&info.nickname.length!=0) {
+      if (info.nickname.length <= 12 && info.nickname.length != 0) {
         myHTTP("http://" + config.host + "/papa/index.php?module=user&type=userinfo&userid=" + window.localStorage.userid + "&nickname=" + info.nickname, function(data) {
           console.log(info.nickname)
           myToast(data.desc);
           // $ionicHistory.goBack() //回到主界面
           $ionicHistory.goBack()
-          // $ionicGoBack()
+            // $ionicGoBack()
 
         })
       } else {
@@ -683,16 +689,16 @@ angular.module('myApp.controllers', [])
     }
   })
 
-.controller('bindController', function($scope, $stateParams, showAlert, myHTTP,$state,$ionicHistory) {
+.controller('bindController', function($scope, $stateParams, showAlert, myHTTP, $state, $ionicHistory) {
     $scope.xuehao = ""
     $scope.password = ""
     $scope.code = ''
-    var info={
-      xuehao:"",
-      password:"",
-      code:""
+    var info = {
+      xuehao: "",
+      password: "",
+      code: ""
     }
-    $scope.info=info;
+    $scope.info = info;
     var codeid = ""
     var clickState = 1;
     getImgData()
@@ -715,15 +721,15 @@ angular.module('myApp.controllers', [])
 
     $scope.sub = function(xuehao, password, code) {
       console.log(info.xuehao.length)
-      if(info.xuehao.length==0){
+      if (info.xuehao.length == 0) {
         myToast("请输入学号")
         return false;
       }
-      if(info.password.length==0){
+      if (info.password.length == 0) {
         myToast("请输入密码")
         return false;
       }
-      if(info.code.length==0){
+      if (info.code.length == 0) {
         myToast("请输入验证码")
         return false;
       }
@@ -734,13 +740,13 @@ angular.module('myApp.controllers', [])
           clickState = 1;
           myToast(data.desc)
           $ionicHistory.goBack()
-          // checkBind(data.result)
+            // checkBind(data.result)
         }, function(data) {
           clickState = 1;
           console.log(data)
           myToast(data.desc)
           getImgData()
-          // checkBind(data.result)
+            // checkBind(data.result)
         })
       }
     }
@@ -895,7 +901,7 @@ angular.module('myApp.controllers', [])
       $state.go('tab.payIndex3', {
         "itemId": data.itemId,
         "style": data.style,
-        'num':'3'
+        'num': '3'
       })
     }
     $scope.status = $stateParams.title
@@ -997,7 +1003,7 @@ angular.module('myApp.controllers', [])
       showLoading.show(500)
     })
 
-    console.log($stateParams.itemId, $stateParams.style,$stateParams.num)
+    console.log($stateParams.itemId, $stateParams.style, $stateParams.num)
     alert($stateParams.num)
     $scope.chooseType = "1"
     $scope.payment = "wx"
@@ -1018,16 +1024,16 @@ angular.module('myApp.controllers', [])
     }
     $scope.channel = function() {
       console.log(111)
-        switch ($stateParams.num) {
-          case '1':
-            $state.go('tab.tab1')
-            break;
-          case '3':
+      switch ($stateParams.num) {
+        case '1':
+          $state.go('tab.tab1')
+          break;
+        case '3':
           $state.go('tab.tab3')
-          default:
+        default:
           $state.go('tab.tab3')
 
-        }
+      }
 
     }
     $scope.sub = function() {
@@ -1051,8 +1057,8 @@ angular.module('myApp.controllers', [])
             showLoading.hide()
             myToast("支付成功")
             $ionicHistory.nextViewOptions({
-          disableBack: true
-        });
+              disableBack: true
+            });
             $scope.channel()
             console.log(result)
 
@@ -1079,7 +1085,7 @@ angular.module('myApp.controllers', [])
         $state.go("tab.tab1");
       }, 500)
     }
-    window.localStorage.startShowStatus=true;
+    window.localStorage.startShowStatus = true;
     $scope.phone = "11111111111"
     $scope.password = "111111"
 

@@ -6,7 +6,7 @@
 
   <div class="list card">
     <div class="item item-avatar" style="height:60px;min-height:60px;"><p style="font-size:20px;color:gray;transform:translateX(-50px);line-height:30px;margin:0;height:60px;">{{info.shopName}}</p></div><div class="item item-body">
-      {{info.address}}   {{info.phone}}
+      {{info.address}}   <a href="tel:{{info.phone}}">{{info.phone}}</a>
     </div>
   </div>
 
@@ -23,7 +23,7 @@
     </ion-list>
 
 
-    <div ng-show="artDatas[1]" style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);text-align:center;font-weight:700;margin-top:5px;">
+    <div ng-show="artDatas[0]" style="padding:10px;background:rgb(255,255,255);color:rgb(100,100,100);text-align:center;font-weight:700;margin-top:5px;">
            优惠券
     </div>
     <div class="row coupon"  ng-repeat="artData in artDatas">
