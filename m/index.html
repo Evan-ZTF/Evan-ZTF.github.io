@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/mui.min.css">
+</head>
+
+<body>
+
+
+  <div id="slider" class="mui-slider">
+    <div class="mui-slider-group mui-slider-loop">
+
+      <div class="mui-slider-item mui-slider-item-duplicate" v-for="item in imgListData">
+        {{item}}
+        <a href="#"><img :src="item.src" /></a>
+      </div>
+    </div>
+    <div class="mui-slider-indicator">
+      <div class="mui-indicator mui-active"></div>
+      <div class="mui-indicator"></div>
+      <div class="mui-indicator"></div>
+      <div class="mui-indicator"></div>
+    </div>
+  </div>
+
+
+  <script src="http://cdn.bootcss.com/vue/1.0.16/vue.min.js"></script>
+  <script src="http://cdn.bootcss.com/fetch/0.11.0/fetch.min.js"></script>
+  <script>
+    new Vue({
+      el: "body",
+      data: {
+        imgListData: ""
+      },
+      ready: function() {
+        var that=this;
+        fetch('./img.json')
+          .then(function(response) {
+            return response.json()
+          }).then(function(json) {
+            that.imgListData=json
+            console.log('parsed json', json)
+          }).then(function(){
+            var script=document.createElement('script')
+            script.src="./js/mui.min.js";
+            document.head.appendChild(script)
+          }).catch(function(ex) {
+            console.log('parsing failed', ex)
+          })
+
+      }
+    });
+  </script>
+</body>
+
+</html>
