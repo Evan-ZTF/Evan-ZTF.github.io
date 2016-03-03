@@ -6,13 +6,6 @@
   <title>Document</title>
 </head>
 <body>
-<button id="btn">关闭</button>
-
-<script>
-var bt=document.getElementById('btn');
-  bt.onclick=function(){
-    window.close()
-  }
-</script>
+<input type="button" value="关闭本窗口" onclick="WeixinJSBridge.call('closeWindow');" />
 </body>
 </html>
