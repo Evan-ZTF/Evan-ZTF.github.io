@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body>
+
+  <style>
+    [ui-view].ng-enter,
+    [ui-view].ng-leave {
+      position: absolute;
+      left: 0;
+      right: 0;
+      -webkit-transition: all .5s ease-in-out;
+      -moz-transition: all .5s ease-in-out;
+      -o-transition: all .5s ease-in-out;
+      transition: all .5s ease-in-out;
+    }
+
+    [ui-view].ng-enter {
+      opacity: 0;
+      -webkit-transform: scale3d(0.5, 0.5, 0.5);
+      -moz-transform: scale3d(0.5, 0.5, 0.5);
+      transform: scale3d(0.5, 0.5, 0.5);
+    }
+
+    [ui-view].ng-enter-active {
+      opacity: 1;
+      -webkit-transform: scale3d(1, 1, 1);
+      -moz-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+    }
+
+    [ui-view].ng-leave {
+      opacity: 1;
+      -webkit-transform: translate3d(0, 0, 0);
+      -moz-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+
+    [ui-view].ng-leave-active {
+      opacity: 0;
+      -webkit-transform: translate3d(100px, 0, 0);
+      -moz-transform: translate3d(100px, 0, 0);
+      transform: translate3d(100px, 0, 0);
+    }
+  </style>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#/index">啪啪送后台</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="{{active=='index'?'active':''}}"><a href="#/index">主界面</a></li>
+          <li class="{{active=='regist'?'active':''}}"><a href="#/shop/regist">商家注册 <span class="sr-only">(current)</span></a></li>
+          <li class="{{active=='info'?'active':''}}"><a href="#/shop/info">商家更新信息</a></li>
+          <li class="{{active=='couponupload'?'active':''}}"><a href="#/shop/couponupload">优惠券上传</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+  <div ui-view></div>
+  <div ui-view='tab1'></div>
+  <div ui-view='tab2'></div>
+  <link rel="stylesheet" href="./js/bootstrap.min.js">
+  <script src="http://libs.useso.com/js/angular.js/1.2.14/angular.min.js"></script>
+  <script src="http://cdn.bootcss.com/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+  <script src="js/controller.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>
